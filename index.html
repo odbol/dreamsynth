@@ -37,6 +37,35 @@
 		<script src="dreamsynth/dreamsynth.js"></script>
 
 
+	
+		<script>
+
+	// Stolen from https://github.com/tambien/StartAudioContext/blob/master/StartAudioContext.js
+	// to get around iOS audio restrictions.
+	var audioContextStarted = false;
+	/**
+	 * Plays a silent sound and also invoke the "resume" method
+	 * @param {AudioContext} context
+	 * @private
+	 */
+	function startAudioContext(){
+		if (audioContextStarted) return;
+		var context = Tone.context;
+		// this accomplishes the iOS specific requirement
+		var buffer = context.createBuffer(1, 1, context.sampleRate)
+		var source = context.createBufferSource()
+		source.buffer = buffer
+		source.connect(context.destination)
+		source.start(0)
+
+		// resume the audio context
+		if (context.resume){
+			context.resume()
+		}
+		audioContextStarted = true;
+	}
+
+		</script>
 
 
 
@@ -408,6 +437,8 @@
 					clientY = event.clientY;
 				}
 
+				startAudioContext();
+				
 
 				mouse.x = ( clientX / window.innerWidth ) * 2 - 1;
 				mouse.y = - ( clientY / window.innerHeight ) * 2 + 1;
