@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - interactive cubes</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+
+		<script src="js/three.js"></script>
+
+		<script src="js/controls/OrbitControls.js"></script>
+
+		<script src="js/libs/dat.gui.min.js"></script>
+		<script src="js/libs/stats.min.js"></script>
+
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
+
+		<script src="js/objects/Water.js"></script>
+		<script src="js/objects/Sky.js"></script>
+
+		<script src="js/WebGL.js"></script>
+
+		<script type="text/javascript" src="dreamsynth/Tone.min.js"></script>
+
+		<script src="dreamsynth/LetterDistributions.js"></script>
+		<script src="dreamsynth/synth.js"></script>
+		<script src="dreamsynth/palettes.js"></script>
+		<script src="dreamsynth/dreamsynth.js"></script>
+
+
+
+
+
+
+		<!-- ocean -->
+		<script>
+
+		if ( WEBGL.isWebGLAvailable() === false ) {
+
+			document.body.appendChild( WEBGL.getWebGLErrorMessage() );
+
+		}
+
+		var Ocean = function (renderer, scene, camera) {
+				
+			var light;
+			var controls, water, sphere;
+
+			var updateSun;
+			var parameters = {
+				distance: 400,
+				inclination: 0.49,
+				azimuth: 0.205
+			};
+
+
+			var init = function() {
+
+				//
+
+				// camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
+				// camera.position.set( 30, 30, 100 );
+
+				//
+
+				light = new THREE.DirectionalLight( 0xffffff, 0.8 );
+				scene.add( light );
+
+				// Water
+
+				var waterGeometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
+
+				water = new THREE.Water(
+					waterGeometry,
+					{
+						textureWidth: 512,
+						textureHeight: 512,
+						waterNormals: new THREE.TextureLoader().load( 'textures/waternormals.jpg', function ( texture ) {
+
+							texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+
+						} ),
+						alpha: 1.0,
+						sunDirection: light.position.clone().normalize(),
+						sunColor: 0xffffff,
+						waterColor: 0x001e0f,
+						distortionScale: 3.7,
+						fog: scene.fog !== undefined
+					}
+				);
+
+				water.rotation.x = - Math.PI / 2;
+
+				scene.add( water );
+
+				// Skybox
+
+				var sky = new THREE.Sky();
+				sky.scale.setScalar( 10000 );
+				scene.add( sky );
+
+				var uniforms = sky.material.uniforms;
+
+				uniforms.turbidity.value = 10;
+				uniforms.rayleigh.value = 2;
+				uniforms.luminance.value = 1;
+				uniforms.mieCoefficient.value = 0.005;
+				uniforms.mieDirectionalG.value = 0.8;
+
+				var cubeCamera = new THREE.CubeCamera( 1, 20000, 256 );
+				cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+
+				updateSun = function() {
+
+					var theta = Math.PI * ( parameters.inclination - 0.5 );
+					var phi = 2 * Math.PI * ( parameters.azimuth - 0.5 );
+
+					light.position.x = parameters.distance * Math.cos( phi );
+					light.position.y = parameters.distance * Math.sin( phi ) * Math.sin( theta );
+					light.position.z = parameters.distance * Math.sin( phi ) * Math.cos( theta );
+
+					sky.material.uniforms.sunPosition.value = light.position.copy( light.position );
+					water.material.uniforms.sunDirection.value.copy( light.position ).normalize();
+
+					cubeCamera.update( renderer, scene );
+
+				}
+
+				updateSun();
+
+				//
+
+				var geometry = new THREE.IcosahedronBufferGeometry( 20, 1 );
+				var count = geometry.attributes.position.count;
+
+				var colors = [];
+				var color = new THREE.Color();
+
+				for ( var i = 0; i < count; i += 3 ) {
+
+					color.setHex( Math.random() * 0xffffff );
+
+					colors.push( color.r, color.g, color.b );
+					colors.push( color.r, color.g, color.b );
+					colors.push( color.r, color.g, color.b );
+
+				}
+
+				geometry.addAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
+
+				var material = new THREE.MeshStandardMaterial( {
+					vertexColors: THREE.VertexColors,
+					roughness: 0.0,
+					flatShading: true,
+					envMap: cubeCamera.renderTarget.texture,
+					side: THREE.DoubleSide
+				} );
+
+				// sphere = new THREE.Mesh( geometry, material );
+				// scene.add( sphere );
+
+				//
+
+				// controls = new THREE.OrbitControls( camera, renderer.domElement );
+				// controls.maxPolarAngle = Math.PI * 0.495;
+				// controls.target.set( 0, 10, 0 );
+				// controls.minDistance = 40.0;
+				// controls.maxDistance = 200.0;
+				// camera.lookAt( controls.target );
+
+				//
+
+				// GUI
+
+				var gui = new dat.GUI();
+
+				var folder = gui.addFolder( 'Sky' );
+				folder.add( parameters, 'inclination', 0, 0.5, 0.0001 ).onChange( updateSun );
+				folder.add( parameters, 'azimuth', 0, 1, 0.0001 ).onChange( updateSun );
+				folder.open();
+
+				var uniforms = water.material.uniforms;
+
+				var folder = gui.addFolder( 'Water' );
+				folder.add( uniforms.distortionScale, 'value', 0, 8, 0.1 ).name( 'distortionScale' );
+				folder.add( uniforms.size, 'value', 0.1, 10, 0.1 ).name( 'size' );
+				folder.add( uniforms.alpha, 'value', 0.9, 1, .001 ).name( 'alpha' );
+				folder.open();
+
+				//
+
+			}
+
+
+			var render = function() {
+
+				var time = performance.now() * 0.001;
+
+				// sphere.position.y = Math.sin( time ) * 20 + 5;
+				// sphere.rotation.x = time * 0.5;
+				// sphere.rotation.z = time * 0.51;
+
+				water.material.uniforms.time.value += 1.0 / 60.0;
+
+
+				parameters.inclination -= 0.000036;
+				if (parameters.inclination < -0.5) {
+					parameters.inclination = 0.51;
+				}
+				updateSun();
+			}
+
+			init();
+
+
+			return {
+				update: render
+			};
+		};
+
+
+		</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<script>
+			var ocean;
+
+			var container, stats, controls;
+			var camera, scene, raycaster, renderer;
+
+			var mouse = new THREE.Vector2(), INTERSECTED;
+			var radius = 100, theta = 0;
+
+			var trees = [];
+
+			init();
+			animate();
+
+			function rebuild() {
+				for ( var j = 0; j < trees.length; j++) {
+					var tree = trees[j].child;
+					scene.remove(tree.group);
+				}
+				trees = Hill_rebuild(0);
+				for ( var j = 0; j < trees.length; j++) {
+					var tree = trees[j].child;
+					scene.add( tree.group );
+				}
+			}
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				var info = document.createElement( 'div' );
+				info.style.position = 'absolute';
+				info.style.top = '10px';
+				info.style.width = '100%';
+				info.style.textAlign = 'center';
+				info.innerHTML = '<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - interactive cubes';
+				container.appendChild( info );
+
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+				
+
+				camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
+				camera.position.set( 0, 300, 600 );
+					// 
+				scene = new THREE.Scene();
+
+				ocean = Ocean(renderer, scene, camera);
+
+				raycaster = new THREE.Raycaster();
+
+
+				stats = new Stats();
+				container.appendChild( stats.dom );
+
+				controls = new THREE.OrbitControls( camera, renderer.domElement );	
+				// controls.autoRotate = true;
+				// 				controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+				// controls.dampingFactor = 0.25;
+				// controls.screenSpacePanning = false;
+				// controls.minDistance = 100;
+				// controls.maxDistance = 500;
+				// controls.maxPolarAngle = Math.PI / 2;
+
+				// controls = new THREE.OrbitControls( camera, renderer.domElement );
+				controls.maxPolarAngle = Math.PI * 0.495;
+				controls.target.set( 0, 10, 0 );
+				controls.minDistance = 40.0;
+				controls.maxDistance = 2000.0;
+				camera.lookAt( controls.target );
+
+				scene.background = new THREE.Color( 0xf0f0f0 );
+
+
+				var light = new THREE.DirectionalLight( 0xffffff, 1 );
+				light.position.set( 1, 1, 1 ).normalize();
+				scene.add( light );
+
+				var geometry = new THREE.BoxBufferGeometry( 20, 20, 20 );
+
+				// for ( var i = 0; i < 200; i ++ ) {
+
+				// 	var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+
+				// 	object.position.x = Math.random() * 800 - 400;
+				// 	object.position.y = Math.random() * 800 - 400;
+				// 	object.position.z = -400;
+
+				// 	// object.rotation.x = Math.random() * 2 * Math.PI;
+				// 	// object.rotation.y = Math.random() * 2 * Math.PI;
+				// 	// object.rotation.z = Math.random() * 2 * Math.PI;
+
+				// 	object.scale.x = Math.random() + 0.5;
+				// 	object.scale.y = Math.random() + 0.5;
+				// 	object.scale.z = Math.random() + 0.5;
+
+				// 	scene.add( object );
+
+				// }
+
+				rebuild();
+
+
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+				// animate transparency for now
+				// var curBoxIdx = 0;
+				// setInterval(function () {
+				// 	if (++curBoxIdx >= slates.length) {
+				// 		curBoxIdx = 0;
+
+				// 	// rebuild();
+				// 	}
+				// 	var slate = slates[curBoxIdx];
+				// 	if (!slate) return;
+				// 	slate.material.transparent = true;	
+				// 	if (slate.material.opacity > 0.5) {
+				// 		slate.material.opacity = 0.32;
+				// 	} else {
+				// 		slate.material.opacity = 0.75;
+				// 	}
+					
+				// }, 30);
+
+
+
+				initGui();
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function onDocumentMouseMove( event ) {
+
+				event.preventDefault();
+
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+			}
+
+			//
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				ocean.update();
+
+				TWEEN.update();
+
+				render();
+				stats.update();
+
+			}
+
+			function onMouseOverSlate(INTERSECTED) {
+				INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+				INTERSECTED.material.emissive.setHex( 0xff0000 );
+
+				INTERSECTED.noteOn();
+
+				console.log("box: ", INTERSECTED.position);
+			}
+
+			function onMouseOutSlate(INTERSECTED) {
+				if ( INTERSECTED ) {
+					INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+
+					INTERSECTED.noteOff();
+				}
+			}
+
+			function render() {
+
+				theta += 0.1;
+
+				// required if controls.enableDamping or controls.autoRotate are set to true
+				controls.update();
+
+				// camera.position.x = radius * Math.sin( THREE.Math.degToRad( theta ) );
+				// camera.position.y = radius * Math.sin( THREE.Math.degToRad( theta ) );
+				// camera.position.z = radius * Math.cos( THREE.Math.degToRad( theta ) );
+				// camera.lookAt( scene.position );
+
+				camera.updateMatrixWorld();
+
+				// find intersections
+
+				raycaster.setFromCamera( mouse, camera );
+
+				var intersects;
+				for ( var j = 0; j < trees.length; j++) {
+					var tree = trees[j].child;
+					intersects = raycaster.intersectObjects( tree.slates );
+					if ( intersects.length > 0 ) {
+						break;
+					}
+				}
+
+				if ( intersects.length > 0 ) {
+
+					if ( INTERSECTED != intersects[ 0 ].object ) {
+
+						onMouseOutSlate( INTERSECTED );
+
+						INTERSECTED = intersects[ 0 ].object;
+						
+						onMouseOverSlate( INTERSECTED );
+					}
+
+				} else {
+
+					onMouseOutSlate( INTERSECTED );
+
+					INTERSECTED = null;
+
+				}
+
+
+				renderer.render( scene, camera );
+
+			}
+
+
+
+			function initGui() {
+				// Sometimes I love javascript. this fuckery would get any other programming language fired.
+				var params = {
+					MIN_BOX_SIZE : MIN_BOX_SIZE,
+					MAX_BOX_SIZE : MAX_BOX_SIZE,
+
+					FRACTAL_BOX_MARGIN : FRACTAL_BOX_MARGIN,
+
+					OFFSET_SIZE : OFFSET_SIZE,
+					BRANCH_LENGTH : BRANCH_LENGTH,
+
+					TWEET_TREE_Y: TWEET_TREE_Y,
+
+					//showHelpers: false,
+					cameraX: camera.position.x, 
+					cameraY: camera.position.y,
+					cameraZ: camera.position.z
+				};
+
+				var gui = new dat.GUI();
+				
+				Object.keys(params).forEach(function(key, el) {
+					var curValue = window[key];
+					if (typeof(curValue) != 'undefined') {
+						// it's a global var, alter it
+						if (curValue == 0) curValue = 1;
+
+						gui.add( params, key, curValue - curValue * 4, curValue + curValue * 4 )
+							.step( curValue / 16 ).name( key )
+							.onChange( function ( value ) {
+							
+							window[key] = value;
+							rebuild();
+							render();
+						} );
+
+					} else {
+						curValue = params[key];
+						gui.add( params, key, curValue - curValue * 4, curValue + curValue * 4 )
+							.step( 1 ).name( key )
+							.onChange( function ( value ) {
+							
+							if (key.indexOf('camera') == 0) {
+
+								camera.position.set( params.cameraX, params.cameraY, params.cameraZ );
+								camera.lookAt( scene.position );
+								
+								render();
+							}
+						} );
+					}
+				});
+				// gui.add( params, 'showHelpers' ).name( 'show helpers' ).onChange( function ( value ) {
+					
+				// 	render();
+				// } );
+			}
+
+		</script>
+
+	</body>
+</html>
