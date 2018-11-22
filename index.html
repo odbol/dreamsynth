@@ -30,6 +30,7 @@
 		<script src="js/WebGL.js"></script>
 
 		<script type="text/javascript" src="dreamsynth/Tone.min.js"></script>
+		<script type="text/javascript" src="dreamsynth/StartAudioContext.js"></script>
 
 		<script src="dreamsynth/LetterDistributions.js"></script>
 		<script src="dreamsynth/synth.js"></script>
@@ -38,34 +39,7 @@
 
 
 	
-		<script>
 
-	// Stolen from https://github.com/tambien/StartAudioContext/blob/master/StartAudioContext.js
-	// to get around iOS audio restrictions.
-	var audioContextStarted = false;
-	/**
-	 * Plays a silent sound and also invoke the "resume" method
-	 * @param {AudioContext} context
-	 * @private
-	 */
-	function startAudioContext(){
-		if (audioContextStarted) return;
-		var context = Tone.context;
-		// this accomplishes the iOS specific requirement
-		var buffer = context.createBuffer(1, 1, context.sampleRate)
-		var source = context.createBufferSource()
-		source.buffer = buffer
-		source.connect(context.destination)
-		source.start(0)
-
-		// resume the audio context
-		if (context.resume){
-			context.resume()
-		}
-		audioContextStarted = true;
-	}
-
-		</script>
 
 
 
@@ -380,6 +354,7 @@
 
 				rebuild();
 
+				StartAudioContext(Tone.context, document);
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'touchstart', onDocumentMouseMove, false );
@@ -436,8 +411,6 @@
 					clientX = event.clientX;
 					clientY = event.clientY;
 				}
-
-				startAudioContext();
 				
 
 				mouse.x = ( clientX / window.innerWidth ) * 2 - 1;
