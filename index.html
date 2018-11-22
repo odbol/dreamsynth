@@ -353,6 +353,8 @@
 
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'touchstart', onDocumentMouseMove, false );
+				document.addEventListener( 'touchmove', onDocumentMouseMove, false );
 
 				//
 
@@ -392,11 +394,23 @@
 			}
 
 			function onDocumentMouseMove( event ) {
+				console.log("onDocumentMouseMove ", event);
+					
+				var clientX, clientY;
+				if (event.touches) {
+					// event.preventDefault();
+					clientX = event.touches[0].clientX;
+					clientY = event.touches[0].clientY;
+				} else {
+					event.preventDefault();
 
-				event.preventDefault();
+					clientX = event.clientX;
+					clientY = event.clientY;
+				}
 
-				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+				mouse.x = ( clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( clientY / window.innerHeight ) * 2 + 1;
 
 			}
 

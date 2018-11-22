@@ -809,10 +809,11 @@ THREE.OrbitControls = function ( object, domElement ) {
 	function onTouchStart( event ) {
 
 		if ( scope.enabled === false ) return;
+		if ( event.touches.length === 1) return;
 
 		event.preventDefault();
 
-		switch ( event.touches.length ) {
+		switch ( event.touches.length - 1 ) {
 
 			case 1:	// one-fingered touch: rotate
 
@@ -851,11 +852,12 @@ THREE.OrbitControls = function ( object, domElement ) {
 	function onTouchMove( event ) {
 
 		if ( scope.enabled === false ) return;
+		if ( event.touches.length === 1) return;
 
 		event.preventDefault();
 		event.stopPropagation();
 
-		switch ( event.touches.length ) {
+		switch ( event.touches.length - 1 ) {
 
 			case 1: // one-fingered touch: rotate
 
@@ -886,6 +888,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	function onTouchEnd( event ) {
 
 		if ( scope.enabled === false ) return;
+		if ( event.touches.length === 1) return;
 
 		handleTouchEnd( event );
 
