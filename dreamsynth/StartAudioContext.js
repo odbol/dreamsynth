@@ -74,11 +74,13 @@
 	 * @private
 	 */
 	function startContext(context){
+		// alert("started! " + context);
 		// this accomplishes the iOS specific requirement
 		var buffer = context.createBuffer(1, 1, context.sampleRate)
 		var source = context.createBufferSource()
 		source.buffer = buffer
 		source.connect(context.destination)
+		source.noteOn();
 		source.start(0)
 
 		// resume the audio context

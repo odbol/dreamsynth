@@ -25,9 +25,27 @@
 			  overflow-x: hidden;
 			  -webkit-overflow-scrolling: touch;
 			}
+
+			.muteButton {
+				position: fixed;
+				bottom: 20px;
+				right: 20px;
+				width: 48px;
+				height: 48px;
+				background: white;
+
+				text-indent: -9999px;
+			}
 		</style>
 	</head>
 	<body>
+
+		<div id="container">
+
+		</div>
+		<button id="muteButton" class="muteButton">Mute volume</button>
+			
+
 
 		<script src="js/three.js"></script>
 
@@ -250,7 +268,12 @@
 
 
 
+		<script>
+			var muteButton = document.getElementById('muteButton');
 
+
+
+		</script>
 
 
 
@@ -291,16 +314,8 @@
 
 			function init() {
 
-				container = document.createElement( 'div' );
-				document.body.appendChild( container );
+				container = document.getElementById( 'container' );
 
-				var info = document.createElement( 'div' );
-				info.style.position = 'absolute';
-				info.style.top = '10px';
-				info.style.width = '100%';
-				info.style.textAlign = 'center';
-				info.innerHTML = '<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - interactive cubes';
-				container.appendChild( info );
 
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -368,7 +383,7 @@
 
 				rebuild();
 
-				StartAudioContext(Tone.context, document);
+				StartAudioContext(Tone.context, muteButton, function() {console.log('auto started')});
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'touchstart', onDocumentMouseMove, false );
