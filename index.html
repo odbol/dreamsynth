@@ -32,9 +32,15 @@
 				right: 20px;
 				width: 48px;
 				height: 48px;
-				background: white;
+				background: url('baseline-volume_up-24px.svg') no-repeat center center;
+				border: none;
 
 				text-indent: -9999px;
+				overflow: hidden;
+			}
+
+			.muted .muteButton {
+				background-image: url('baseline-volume_off-24px.svg')
 			}
 		</style>
 	</head>
@@ -270,7 +276,14 @@
 
 		<script>
 			var muteButton = document.getElementById('muteButton');
-
+			muteButton.addEventListener('click', function (ev) {
+				var isMuted = Tone.Master.mute = !Tone.Master.mute;
+				if (isMuted) {
+					document.body.className = document.body.className.replace(' muted', '');
+				} else {
+					document.body.className += ' muted';
+				}
+			});
 
 
 		</script>
