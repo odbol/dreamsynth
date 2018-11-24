@@ -346,7 +346,7 @@
 				
 
 				camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
-				camera.position.set( 0, 300, 600 );
+				camera.position.set( 150, 300, 600 );
 					// 
 				scene = new THREE.Scene();
 
@@ -490,7 +490,7 @@
 
 			function onMouseOverSlate(INTERSECTED) {
 				INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-				INTERSECTED.material.emissive.setHex( 0xff0000 );
+				INTERSECTED.material.emissive.setHex( INTERSECTED.material.color.getHex() );
 
 				INTERSECTED.noteOn();
 
