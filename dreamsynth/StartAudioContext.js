@@ -80,7 +80,7 @@
 		var source = context.createBufferSource()
 		source.buffer = buffer
 		source.connect(context.destination)
-		source.noteOn();
+		// source.noteOn();
 		source.start(0)
 
 		// resume the audio context
