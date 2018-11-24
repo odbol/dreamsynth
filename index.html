@@ -288,9 +288,9 @@
 			muteButton.addEventListener('click', function (ev) {
 				var isMuted = Tone.Master.mute = !Tone.Master.mute;
 				if (isMuted) {
-					document.body.className = document.body.className.replace(' muted', '');
-				} else {
 					document.body.className += ' muted';
+				} else {
+					document.body.className = document.body.className.replace(' muted', '');
 				}
 			});
 
