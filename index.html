@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js webgl - interactive cubes</title>
+		<title>websynth - odbol</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -58,7 +58,7 @@
 			.overlay.closed {
 				opacity: 0;
 				background: rgba(0,0,0,0.0);
-				transform: scaleX(0) scaleY(0) translateY(120vh);
+				/*transform: scaleX(0) scaleY(0) translateY(120vh);*/
 			}
 
 			.dialog {
@@ -160,6 +160,8 @@
 				startButton = document.getElementById('startButton');
 			startButton.addEventListener('click', function(ev) {
 				intro.className += ' closed';
+				setTimeout(function () { intro.style.display = 'none'; }, 350);
+
 				isIntroClosed = true;
 			});
 
@@ -475,6 +477,7 @@
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'touchstart', onDocumentMouseMove, false );
 				document.addEventListener( 'touchmove', onDocumentMouseMove, false );
+				document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 
 				//
 
@@ -534,6 +537,12 @@
 				mouse.x = ( clientX / window.innerWidth ) * 2 - 1;
 				mouse.y = - ( clientY / window.innerHeight ) * 2 + 1;
 
+			}
+
+
+			function onDocumentTouchEnd( event ) {
+				mouse.x = -2;
+				mouse.y = -2;
 			}
 
 			//
