@@ -52,6 +52,15 @@
 		<button id="muteButton" class="muteButton">Mute volume</button>
 			
 
+		<script>
+			var DEBUG = window.location.href.indexOf('debug=true') > 0;
+			var debugPrint = DEBUG ? function () {
+					console.log.apply(console, arguments);
+				} 
+				: 
+				function () {};
+		</script>
+
 
 		<script src="js/three.js"></script>
 
@@ -222,23 +231,23 @@
 
 				// GUI
 
-				var gui = new dat.GUI();
+				if (DEBUG) {
+					var gui = new dat.GUI();
 
-				var folder = gui.addFolder( 'Sky' );
-				folder.add( parameters, 'inclination', 0, 0.5, 0.0001 ).onChange( updateSun );
-				folder.add( parameters, 'azimuth', 0, 1, 0.0001 ).onChange( updateSun );
-				folder.open();
+					var folder = gui.addFolder( 'Sky' );
+					folder.add( parameters, 'inclination', 0, 0.5, 0.0001 ).onChange( updateSun );
+					folder.add( parameters, 'azimuth', 0, 1, 0.0001 ).onChange( updateSun );
+					folder.open();
 
-				var uniforms = water.material.uniforms;
+					var uniforms = water.material.uniforms;
 
-				var folder = gui.addFolder( 'Water' );
-				folder.add( uniforms.distortionScale, 'value', 0, 8, 0.1 ).name( 'distortionScale' );
-				folder.add( uniforms.size, 'value', 0.1, 10, 0.1 ).name( 'size' );
-				folder.add( uniforms.alpha, 'value', 0.9, 1, .001 ).name( 'alpha' );
-				folder.open();
+					var folder = gui.addFolder( 'Water' );
+					folder.add( uniforms.distortionScale, 'value', 0, 8, 0.1 ).name( 'distortionScale' );
+					folder.add( uniforms.size, 'value', 0.1, 10, 0.1 ).name( 'size' );
+					folder.add( uniforms.alpha, 'value', 0.9, 1, .001 ).name( 'alpha' );
+					folder.open();
 
-				//
-
+				}
 			}
 
 
@@ -346,8 +355,10 @@
 				raycaster = new THREE.Raycaster();
 
 
-				stats = new Stats();
-				container.appendChild( stats.dom );
+				if (DEBUG) {
+					stats = new Stats();
+					container.appendChild( stats.dom );
+				}
 
 				controls = new THREE.OrbitControls( camera, renderer.domElement );	
 				// controls.autoRotate = true;
@@ -396,7 +407,7 @@
 
 				rebuild();
 
-				StartAudioContext(Tone.context, muteButton, function() {console.log('auto started')});
+				StartAudioContext(Tone.context, muteButton, function() {debugPrint('auto started')});
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'touchstart', onDocumentMouseMove, false );
@@ -427,7 +438,9 @@
 
 
 
-				initGui();
+				if (DEBUG) {
+					initGui();
+				}
 			}
 
 			function onWindowResize() {
@@ -440,7 +453,7 @@
 			}
 
 			function onDocumentMouseMove( event ) {
-				console.log("onDocumentMouseMove ", event);
+				debugPrint("onDocumentMouseMove ", event);
 					
 				var clientX, clientY;
 				if (event.touches) {
@@ -471,7 +484,7 @@
 				TWEEN.update();
 
 				render();
-				stats.update();
+				stats && stats.update();
 
 			}
 
@@ -481,7 +494,7 @@
 
 				INTERSECTED.noteOn();
 
-				console.log("box: ", INTERSECTED.position);
+				debugPrint("box: ", INTERSECTED.position);
 			}
 
 			function onMouseOutSlate(INTERSECTED) {

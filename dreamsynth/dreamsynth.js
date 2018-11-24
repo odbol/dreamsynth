@@ -261,16 +261,16 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 		};
 
 	object.noteOn = function() {
-		console.log("noteOn " + freq, note);
+		debugPrint("noteOn " + freq, note);
 		shake();
 		self.synth.triggerAttackRelease(freq, "1n");
 	};
 	object.noteOff = function() {
-		console.log("noteoff ");
+		debugPrint("noteoff ");
 		self.synth.triggerRelease();
 	};
 
-	console.log("makeBox ", x, y, w, h, offset, c, octave);
+	debugPrint("makeBox ", x, y, w, h, offset, c, octave);
 
 	self.group.add(object); // add to the THREE.js group
 	self.slates.push(object);
