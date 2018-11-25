@@ -73,23 +73,25 @@ Boat.prototype.load = function(path, objFile, mtlFile) {
 
 Boat.prototype.update = function() {
 	this.orbit += 0.002;
-	this.obj.position.y = 0;
-	this.obj.position.x = Math.sin(this.orbit) * radius;
-	this.obj.position.z = Math.cos(this.orbit) * radius;
+	this.obj.position.y = this.y;
+	this.obj.position.x = Math.sin(this.orbit) * this.radius;
+	this.obj.position.z = Math.cos(this.orbit) * this.radius;
 };
 
 
-var BOAT_SCALE = 0.1;
 var Boats = function(scene, loops, modelFiles) {
 	var self = this;
 	self.models = [];
 	modelFiles.forEach(function(boatFile, i) {
-		var boat = new Boat(i * 500);
+		var boat = new Boat(i * 120);
 		boat.load(encodeURI(boatFile.assetPath + '/'), encodeURI(boatFile.objFile), encodeURI(boatFile.mtlFile))
 			.then(function(boat) {
-				boat.obj.scale.x = BOAT_SCALE;
-				boat.obj.scale.y = BOAT_SCALE;
-				boat.obj.scale.z = BOAT_SCALE;
+				if (boatFile.scale) {
+					boat.obj.scale.x = boatFile.scale;
+					boat.obj.scale.y = boatFile.scale;
+					boat.obj.scale.z = boatFile.scale;
+				}
+				boat.y = boatFile.y || 0;
 
 				boat.update();
 				scene.add(boat.obj);
