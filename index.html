@@ -429,6 +429,9 @@
 				if (DEBUG) {
 					stats = new Stats();
 					container.appendChild( stats.dom );
+
+					// var ambientLight = new THREE.AmbientLight('#fff');
+					// scene.add(ambientLight);
 				}
 
 				controls = new THREE.OrbitControls( camera, renderer.domElement );	

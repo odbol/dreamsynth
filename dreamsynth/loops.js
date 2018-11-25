@@ -41,7 +41,9 @@ var loopFiles = {
 		});
 
 
-
+var onLoaderError = function(err) {
+	console.error('Error loading model: ', err);
+};
 
 var Boat = function (radius) {
 	this.radius = radius;
@@ -66,8 +68,8 @@ Boat.prototype.load = function(path, objFile, mtlFile) {
 	                {   
 	                    self.obj = obj;
 	                    resolve(self);
-	                });
-	        });
+	                }, null, onLoaderError);
+	        }, null, onLoaderError);
 	    });
 };
 
