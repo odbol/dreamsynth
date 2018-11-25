@@ -77,17 +77,57 @@
 			.dialog button {
 				margin-top: 5px;
 				border: solid 1px #fff;
-			    background: #ffffff;
+				width: 100px;
+			    
+			    background: #000 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=) no-repeat 0 0;
+			    background-size: 100% 100%;
+			    animation: loadingbar 140s;
+
 			    color: #000;
 			    padding: 7px 20px;
 			    /* text-transform: uppercase; */
 			    font-variant: small-caps;
 			}
 
-			.dialog button:hover,
-			.dialog button:active {
+			.loading .dialog button {
+				color: #999;
+				animation-duration: 140s;
+			}
+
+			.loaded .dialog button {
+				animation-duration: 1.3s;
+			}
+
+			.loaded .dialog button:hover,
+			.loaded .dialog button:active {
 			    background: #000;
 			    color: #fff;
+			}
+
+			@keyframes loadingbar {
+			  0% {
+			    background-size: 0% 100%;
+			  }
+
+			  3% {
+			    background-size: 30% 100%;
+			  }
+
+			  15% {
+			    background-size: 50% 100%;
+			  }
+
+			  50% {
+			    background-size: 80% 100%;
+			  }
+
+			  95% {
+			    background-size: 90% 100%;
+			  }
+
+			  100% {
+			    background-size: 97% 100%;
+			  }
 			}
 
 		</style>
@@ -103,7 +143,7 @@
 				<h2>dreamsynth</h2>
 				<p>I saw this in a dream</p>
 				<p>Please unmute your speakers and enjoy.</p>
-				<button class="start" id="startButton">Begin</button>
+				<button class="start" id="startButton">Loading...</button>
 			</div>
 		</div>
 
@@ -188,6 +228,7 @@
 			});
 
 			startButton.disabled = true;
+			startButton.innerText = "Loading...";
 
 			var numItemsLoading = 0,
 				incrementLoadingItems = function() {
@@ -195,8 +236,9 @@
 				},
 				decrementLoadingItems = function() {
 					if (--numItemsLoading == 0) {
-						document.body.className = document.body.className.replace(/ *loading/ig, '');
+						document.body.className = document.body.className.replace('loading', 'loaded');
 						startButton.disabled = false;
+						startButton.innerText = "Begin";
 					}
 				};
 
