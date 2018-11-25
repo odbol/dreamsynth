@@ -15,15 +15,24 @@ Loops.prototype.startAll = function() {
 Loops.prototype.mute = function(sampleName, isMuted) {
 	this.players.get(sampleName).mute = isMuted;
 };
+Loops.prototype.toggle = function(sampleIndex) {
+	var i = 0;
+	for(var name in this.players._players) {
+		if (i++ == sampleIndex) {
+			var player = this.players.get(name);
+			player.mute = !player.mute;
+		}
+	}
+};
 
 var MODEL_ROTATION = 10;
 
 
 var loopFiles = {
+		'pad' : 'samples/pad.m4a',
 		'bell' : 'samples/bell.m4a',
 		'chords' : 'samples/chords.m4a',
 		'latin' : 'samples/latin.m4a',
-		'pad' : 'samples/pad.m4a',
 		'techno' : 'samples/techno.m4a'
 	},
 	loops = new Loops(loopFiles,
@@ -45,10 +54,11 @@ var onLoaderError = function(err) {
 	console.error('Error loading model: ', err);
 };
 
-var Boat = function (radius, rotation) {
+var Boat = function (radius, rotation, onClick) {
 	this.radius = radius;
 	this.rotation = (rotation || 0) * (Math.PI / 4);
 	this.orbit = 0;
+	this.onClickCallback = onClick;
 };
 
 Boat.prototype.load = function(path, objFile, mtlFile) {
@@ -88,33 +98,44 @@ Boat.prototype.update = function() {
 	}
 };
 
-
-Boat.prototype.onClick = function() {
-
-};
-
-Boat.prototype.onMouseOver = function() {
-	var model = this;
+function setEmissiveColor(model, color) {
 	if (model.obj.children[0].material.forEach) {
 		model.obj.children[0].material.forEach(function(child) {
-			child.emissive.setHex( 0x880000 );
+			child.emissive.setHex( color );
 			// glowMaterial(child);//
 		});
 	} else {
-		model.obj.children[0].material.emissive.setHex( 0x880000 );
+		model.obj.children[0].material.emissive.setHex( color );
 		// glowMaterial(model.obj.children[0].material);
 	}
+}
+
+Boat.prototype.onClick = function() {
+	this.onClickCallback && this.onClickCallback();
+};
+
+Boat.prototype.onMouseOver = function() {
+	setEmissiveColor(this, 0x880000);
 };
 
 Boat.prototype.onMouseOut = function() {
-
+	setEmissiveColor(this, 0x000000);
 };
 
+
+/**
+ * Rotates the boatates and controls the loops when you click on them.
+ * @param {Scene3d} scene      
+ * @param {Loops} loops      the loops that correspond with the modelFiles
+ * @param {Array} modelFiles Array of model file descriptions.
+ */
 var Boats = function(scene, loops, modelFiles) {
 	var self = this;
 	self.models = [];
 	modelFiles.forEach(function(boatFile, i) {
-		var boat = new Boat(i * 120, boatFile.rotation);
+		var boat = new Boat(i * 120, boatFile.rotation, function() {
+			loops.toggle(i);
+		});
 		boat.load(encodeURI(boatFile.assetPath + '/'), encodeURI(boatFile.objFile), encodeURI(boatFile.mtlFile))
 			.then(function(boat) {
 				if (boatFile.scale) {
@@ -141,10 +162,9 @@ Boats.prototype.update = function() {
 Boats.prototype.checkMouse = function(raycaster, isClick) {
 	this.models.forEach(function (model) {
 		if (raycaster.intersectObject(model.obj, true).length > 0) {
+			model.onMouseOver();
 			if (isClick) {
 				model.onClick();
-			} else {
-				model.onMouseOver();
 			}
 		} else {
 			model.onMouseOut();
