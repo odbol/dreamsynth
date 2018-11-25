@@ -16,7 +16,7 @@ Loops.prototype.mute = function(sampleName, isMuted) {
 	this.players.get(sampleName).mute = isMuted;
 };
 
-
+var MODEL_ROTATION = 10;
 
 
 var loopFiles = {
@@ -45,8 +45,9 @@ var onLoaderError = function(err) {
 	console.error('Error loading model: ', err);
 };
 
-var Boat = function (radius) {
+var Boat = function (radius, rotation) {
 	this.radius = radius;
+	this.rotation = (rotation || 0) * (Math.PI / 4);
 	this.orbit = 0;
 };
 
@@ -76,9 +77,15 @@ Boat.prototype.load = function(path, objFile, mtlFile) {
 Boat.prototype.update = function() {
 	this.orbit += 0.002;
 	this.obj.position.y = this.y;
-	// Stagger using radius as a proxy index
-	this.obj.position.x = Math.sin(this.orbit + this.radius * this.radius) * this.radius;
-	this.obj.position.z = Math.cos(this.orbit + this.radius * this.radius) * this.radius;
+	if (this.radius > 0) {
+		// Stagger using radius as a proxy index
+		this.obj.position.x = Math.sin(this.orbit + this.radius * this.radius) * this.radius;
+		this.obj.position.z = Math.cos(this.orbit + this.radius * this.radius) * this.radius;
+
+		this.obj.lookAt(0,0,0);
+		this.obj.rotateY(this.rotation); 
+		// this.obj.rotateY(MODEL_ROTATION * (Math.PI / 4)); 
+	}
 };
 
 
@@ -86,7 +93,7 @@ var Boats = function(scene, loops, modelFiles) {
 	var self = this;
 	self.models = [];
 	modelFiles.forEach(function(boatFile, i) {
-		var boat = new Boat(i * 120);
+		var boat = new Boat(i * 120, boatFile.rotation);
 		boat.load(encodeURI(boatFile.assetPath + '/'), encodeURI(boatFile.objFile), encodeURI(boatFile.mtlFile))
 			.then(function(boat) {
 				if (boatFile.scale) {
