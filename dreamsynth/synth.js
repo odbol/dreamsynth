@@ -1,15 +1,16 @@
 var Synth = (function () {
 	var synthIdx = 0,
 		curIntervalIdx = 0,
-		intervals = [ 0, 2, 3, 5, 7, 8, 11, 12 ];
+		intervals = [ 0, 2, 4, 5, 7, 9, 11, 12 ];
 
 	return {
 		createNextSynth: function() {
+			var synth;
 			synthIdx = (synthIdx + 1) % 3;
 			switch(synthIdx) {
 				case 0:
 					// Marimba
-					return new Tone.PolySynth(4, Tone.Synth)
+					synth = new Tone.PolySynth(4, Tone.Synth)
 						.set(
 						{
 						    "oscillator": {
@@ -29,9 +30,11 @@ var Synth = (function () {
 						    }
 						}
 					).toMaster();
+					synth.volume.value = -20;
+					return synth;
 				case 2:
 					// Kalimba
-					return new Tone.PolySynth(4, Tone.FMSynth)
+					synth = new Tone.PolySynth(4, Tone.FMSynth)
 						.set(
 						{
 						    "harmonicity":8,
@@ -56,9 +59,11 @@ var Synth = (function () {
 						    }
 						}
 					).toMaster();
+					synth.volume.value = -2;
+					return synth;
 				case 1:
 					// Distorted
-					return new Tone.PolySynth(12, Tone.FMSynth)
+					synth = new Tone.PolySynth(12, Tone.FMSynth)
 						.set(
 						{
 							"oscillator" : {
@@ -73,6 +78,8 @@ var Synth = (function () {
 							}
 						}
 					).toMaster();
+					synth.volume.value = -15;
+					return synth;
 			};
 		},
 		getRandomNote: function(seed) {
