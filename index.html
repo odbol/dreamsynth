@@ -117,6 +117,9 @@
 
 		<script src="js/three.js"></script>
 
+		<script src="js/loaders/MTLLoader.js"></script>
+		<script src="js/loaders/OBJLoader2.js"></script>
+
 		<script src="js/controls/OrbitControls.js"></script>
 
 		<script src="js/libs/dat.gui.min.js"></script>
@@ -377,7 +380,7 @@
 
 
 		<script>
-			var ocean;
+			var ocean, boats;
 
 			var container, stats, controls;
 			var camera, scene, raycaster, renderer;
@@ -473,6 +476,8 @@
 
 				// }
 
+				initBoats();
+
 				rebuild();
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
@@ -554,6 +559,8 @@
 
 				ocean.update();
 
+				boats.update();
+
 				TWEEN.update();
 
 				render();
@@ -629,6 +636,39 @@
 
 			}
 
+
+			function initBoats() {
+				var boatFiles = [
+					{ 
+						'assetPath': 'models/boat',
+						'mtlFile': 'Boat Texture 1.mtl',
+						'objFile': 'Boat Texture 1.obj'
+					},
+					{ 
+						'assetPath': 'models/blimp',
+						'mtlFile': 'CUPIC_BLIMP.mtl',
+						'objFile': 'CUPIC_BLIMP.obj'
+					},
+					{ 
+						'assetPath': 'models/lighthouse',
+						'mtlFile': 'Lighthouse.mtl',
+						'objFile': 'Lighthouse.obj',
+					},
+					{ 
+						'assetPath': 'models/sailboat',
+						'mtlFile': '1368 Sailboat.mtl',
+						'objFile': '1368 Sailboat.obj'
+					},
+					{ 
+						'assetPath': 'models/submarine',
+						'mtlFile': 'submarine.mtl',
+						'objFile': 'submarine.obj'
+					}
+				];
+
+				boats = new Boats(scene, loops, boatFiles);
+
+			}
 
 
 			function initGui() {
