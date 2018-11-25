@@ -112,6 +112,19 @@
 				} 
 				: 
 				function () {};
+
+
+
+			function glowMaterial(material) {
+				material.__currentHex = material.emissive.getHex();
+				material.emissive.setHex( material.color.getHex() );
+			}
+
+			function unglowMaterial(material) {
+				if (typeof(material.__currentHex) != 'undefined') {
+					material.emissive.setHex( material.__currentHex );
+				}
+			}
 		</script>
 
 
@@ -487,6 +500,7 @@
 				document.addEventListener( 'touchstart', onDocumentMouseMove, false );
 				document.addEventListener( 'touchmove', onDocumentMouseMove, false );
 				document.addEventListener( 'touchend', onDocumentTouchEnd, false );
+				document.addEventListener( 'click', onDocumentMouseClick, false );
 
 				//
 
@@ -548,8 +562,14 @@
 
 			}
 
+			var clickedMouse;
+			function onDocumentMouseClick(event) {
+				clickedMouse = mouse;
+			}
 
 			function onDocumentTouchEnd( event ) {
+				clickedMouse = mouse;
+
 				mouse.x = -2;
 				mouse.y = -2;
 			}
@@ -572,8 +592,7 @@
 			}
 
 			function onMouseOverSlate(INTERSECTED) {
-				INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-				INTERSECTED.material.emissive.setHex( INTERSECTED.material.color.getHex() );
+				glowMaterial(INTERSECTED.material);
 
 				INTERSECTED.noteOn();
 
@@ -582,7 +601,7 @@
 
 			function onMouseOutSlate(INTERSECTED) {
 				if ( INTERSECTED ) {
-					INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+					unglowMaterial(INTERSECTED.material);
 
 					INTERSECTED.noteOff();
 				}
@@ -634,6 +653,11 @@
 
 				}
 
+				if (clickedMouse) {
+					raycaster.setFromCamera(clickedMouse, camera);
+				}
+				boats.checkMouse(raycaster, clickedMouse);
+				clickedMouse = false;
 
 				renderer.render( scene, camera );
 

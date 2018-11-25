@@ -89,6 +89,27 @@ Boat.prototype.update = function() {
 };
 
 
+Boat.prototype.onClick = function() {
+
+};
+
+Boat.prototype.onMouseOver = function() {
+	var model = this;
+	if (model.obj.children[0].material.forEach) {
+		model.obj.children[0].material.forEach(function(child) {
+			child.emissive.setHex( 0x880000 );
+			// glowMaterial(child);//
+		});
+	} else {
+		model.obj.children[0].material.emissive.setHex( 0x880000 );
+		// glowMaterial(model.obj.children[0].material);
+	}
+};
+
+Boat.prototype.onMouseOut = function() {
+
+};
+
 var Boats = function(scene, loops, modelFiles) {
 	var self = this;
 	self.models = [];
@@ -116,3 +137,17 @@ Boats.prototype.update = function() {
 	});
 };
 
+
+Boats.prototype.checkMouse = function(raycaster, isClick) {
+	this.models.forEach(function (model) {
+		if (raycaster.intersectObject(model.obj, true).length > 0) {
+			if (isClick) {
+				model.onClick();
+			} else {
+				model.onMouseOver();
+			}
+		} else {
+			model.onMouseOut();
+		}
+	});
+};
