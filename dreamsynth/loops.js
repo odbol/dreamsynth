@@ -43,7 +43,7 @@ var loopFiles = {
 
 
 
-var Boat = function (scene, assetsPath, objFile, mtlFile, radius) {
+var Boat = function (radius) {
 	this.radius = radius;
 	this.orbit = 0;
 };
@@ -72,21 +72,25 @@ Boat.prototype.load = function(path, objFile, mtlFile) {
 };
 
 Boat.prototype.update = function() {
-	this.orbit++;
+	this.orbit += 0.002;
 	this.obj.position.y = 0;
 	this.obj.position.x = Math.sin(this.orbit) * radius;
 	this.obj.position.z = Math.cos(this.orbit) * radius;
 };
 
 
-
+var BOAT_SCALE = 0.1;
 var Boats = function(scene, loops, modelFiles) {
 	var self = this;
 	self.models = [];
 	modelFiles.forEach(function(boatFile, i) {
-		var boat = new Boat(i * 50);
+		var boat = new Boat(i * 500);
 		boat.load(encodeURI(boatFile.assetPath + '/'), encodeURI(boatFile.objFile), encodeURI(boatFile.mtlFile))
 			.then(function(boat) {
+				boat.obj.scale.x = BOAT_SCALE;
+				boat.obj.scale.y = BOAT_SCALE;
+				boat.obj.scale.z = BOAT_SCALE;
+
 				boat.update();
 				scene.add(boat.obj);
 				self.models.push(boat);
