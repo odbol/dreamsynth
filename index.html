@@ -35,6 +35,8 @@
 				background: url('baseline-volume_up-24px.svg') no-repeat center center;
 				border: none;
 
+				z-index:200;
+
 				text-indent: -9999px;
 				overflow: hidden;
 			}
@@ -51,6 +53,8 @@
 			    height: 100%;
 				background: rgba(0,0,0,0.8);
 				color: #fff;
+
+				z-index:100;
 
 				transition: all 0.3s ease-in;
 			}
@@ -93,7 +97,6 @@
 		<div id="container">
 
 		</div>
-		<button id="muteButton" class="muteButton">Mute volume</button>
 
 		<div id="intro" class="overlay">
 			<div class="dialog">
@@ -103,6 +106,8 @@
 				<button class="start" id="startButton">Begin</button>
 			</div>
 		</div>
+
+		<button id="muteButton" class="muteButton">Mute volume</button>
 			
 
 		<script>
