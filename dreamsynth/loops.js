@@ -76,8 +76,9 @@ Boat.prototype.load = function(path, objFile, mtlFile) {
 Boat.prototype.update = function() {
 	this.orbit += 0.002;
 	this.obj.position.y = this.y;
-	this.obj.position.x = Math.sin(this.orbit) * this.radius;
-	this.obj.position.z = Math.cos(this.orbit) * this.radius;
+	// Stagger using radius as a proxy index
+	this.obj.position.x = Math.sin(this.orbit + this.radius * this.radius) * this.radius;
+	this.obj.position.z = Math.cos(this.orbit + this.radius * this.radius) * this.radius;
 };
 
 
