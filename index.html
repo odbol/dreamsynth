@@ -88,7 +88,7 @@
 
 		</style>
 	</head>
-	<body>
+	<body class="loading">
 
 		<div id="container">
 
@@ -182,6 +182,18 @@
 				isIntroClosed = true;
 			});
 
+			startButton.disabled = true;
+
+			var numItemsLoading = 0,
+				incrementLoadingItems = function() {
+					numItemsLoading++;
+				},
+				decrementLoadingItems = function() {
+					if (--numItemsLoading == 0) {
+						document.body.className = document.body.className.replace(/ *loading/ig, '');
+						startButton.disabled = false;
+					}
+				};
 
 			StartAudioContext(Tone.context, startButton, function() {debugPrint('auto started')});
 
@@ -665,6 +677,31 @@
 
 
 			function initBoats() {
+				incrementLoadingItems();
+
+				var loopFiles = {
+						'pad' : 'samples/pad.m4a',
+						'bell' : 'samples/bell.m4a',
+						'chords' : 'samples/chords.m4a',
+						'latin' : 'samples/latin.m4a',
+						'techno' : 'samples/techno.m4a'
+					},
+					loops = new Loops(loopFiles,
+						function () {
+							debugPrint('All samples loaded');
+
+							for (var name in loopFiles) {
+								loops.mute(name, name !== 'pad');
+							}
+
+							decrementLoadingItems();
+							loops.startAll();
+						},
+						function (sampleName) {
+							debugPrint('Loaded sample ' + sampleName);
+						});
+
+
 				var boatFiles = [
 					{ 
 						'assetPath': 'models/lighthouse',
@@ -705,7 +742,7 @@
 					}
 				];
 
-				boats = new Boats(scene, loops, boatFiles);
+				boats = new Boats(scene, loops, boatFiles, decrementLoadingItems, incrementLoadingItems);
 
 			}
 

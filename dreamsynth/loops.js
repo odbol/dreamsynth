@@ -28,27 +28,6 @@ Loops.prototype.toggle = function(sampleIndex) {
 var MODEL_ROTATION = 10;
 
 
-var loopFiles = {
-		'pad' : 'samples/pad.m4a',
-		'bell' : 'samples/bell.m4a',
-		'chords' : 'samples/chords.m4a',
-		'latin' : 'samples/latin.m4a',
-		'techno' : 'samples/techno.m4a'
-	},
-	loops = new Loops(loopFiles,
-		function () {
-			debugPrint('All samples loaded');
-
-			for (var name in loopFiles) {
-				loops.mute(name, name !== 'pad');
-			}
-
-			loops.startAll();
-		},
-		function (sampleName) {
-			debugPrint('Loaded sample ' + sampleName);
-		});
-
 
 var onLoaderError = function(err) {
 	console.error('Error loading model: ', err);
@@ -129,13 +108,15 @@ Boat.prototype.onMouseOut = function() {
  * @param {Loops} loops      the loops that correspond with the modelFiles
  * @param {Array} modelFiles Array of model file descriptions.
  */
-var Boats = function(scene, loops, modelFiles) {
+var Boats = function(scene, loops, modelFiles, onBoatLoadFinished, onBoatLoadStart) {
 	var self = this;
 	self.models = [];
 	modelFiles.forEach(function(boatFile, i) {
 		var boat = new Boat(i * 120, boatFile.rotation, function() {
 			loops.toggle(i);
 		});
+		onBoatLoadStart && onBoatLoadStart(boat);
+
 		boat.load(encodeURI(boatFile.assetPath + '/'), encodeURI(boatFile.objFile), encodeURI(boatFile.mtlFile))
 			.then(function(boat) {
 				if (boatFile.scale) {
@@ -148,6 +129,8 @@ var Boats = function(scene, loops, modelFiles) {
 				boat.update();
 				scene.add(boat.obj);
 				self.models.push(boat);
+
+				onBoatLoadFinished && onBoatLoadFinished(boat);
 			});
 	});
 };
