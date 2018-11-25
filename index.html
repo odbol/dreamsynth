@@ -218,6 +218,10 @@
 			});
 
 			var isIntroClosed = false,
+				onStartedListeners = [],
+				addOnStartedListener = function(listener) {
+					onStartedListeners.push(listener);
+				},
 				intro = document.getElementById('intro'),
 				startButton = document.getElementById('startButton');
 			startButton.addEventListener('click', function(ev) {
@@ -225,6 +229,13 @@
 				setTimeout(function () { intro.style.display = 'none'; }, 350);
 
 				isIntroClosed = true;
+
+				setTimeout(function() {
+						onStartedListeners.forEach(function(listener) {
+							listener();
+						});
+						onStartedListeners = null;
+					}, 100);
 			});
 
 			startButton.disabled = true;
@@ -457,7 +468,7 @@
 			var container, stats, controls;
 			var camera, scene, raycaster, renderer;
 
-			var mouse = new THREE.Vector2(), INTERSECTED;
+			var mouse = new THREE.Vector2(-500, -500), INTERSECTED;
 			var radius = 100, theta = 0;
 
 			var trees = [];
@@ -555,11 +566,13 @@
 
 				rebuild();
 
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				document.addEventListener( 'touchstart', onDocumentMouseMove, false );
-				document.addEventListener( 'touchmove', onDocumentMouseMove, false );
-				document.addEventListener( 'touchend', onDocumentTouchEnd, false );
-				document.addEventListener( 'click', onDocumentMouseClick, false );
+				addOnStartedListener(function() {
+					document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+					document.addEventListener( 'touchstart', onDocumentMouseMove, false );
+					document.addEventListener( 'touchmove', onDocumentMouseMove, false );
+					document.addEventListener( 'touchend', onDocumentTouchEnd, false );
+					document.addEventListener( 'click', onDocumentMouseClick, false );
+				});
 
 				//
 
@@ -629,8 +642,8 @@
 			function onDocumentTouchEnd( event ) {
 				clickedMouse = mouse;
 
-				mouse.x = -2;
-				mouse.y = -2;
+				mouse.x = -200;
+				mouse.y = -200;
 			}
 
 			//
