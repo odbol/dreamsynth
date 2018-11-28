@@ -743,22 +743,35 @@
 				incrementLoadingItems();
 
 				var loopFiles = {
-						'pad' : 'samples/pad.m4a',
-						'bell' : 'samples/bell.m4a',
-						'chords' : 'samples/chords.m4a',
-						'latin' : 'samples/latin.m4a',
-						'techno' : 'samples/techno.m4a'
+						'pad' : {
+							url: 'samples/pad.m4a'
+						},
+						'bell' : {
+							url: 'samples/bell.m4a'
+						},
+						'chords' : {
+							url: 'samples/chords.m4a'
+						},
+						'latin' : {
+							url: 'samples/latin.m4a',
+							volume: -16
+						},
+						'techno' : {
+							url: 'samples/techno.m4a',
+							volume: -10
+						}
 					},
 					loops = new Loops(loopFiles,
 						function () {
 							debugPrint('All samples loaded');
 
+							loops.startAll();
+
+							// must mute AFTER starting because that's when volumes are adjusted.
 							for (var name in loopFiles) {
 								loops.mute(name, name !== 'pad');
 							}
-
 							decrementLoadingItems();
-							loops.startAll();
 						},
 						function (sampleName) {
 							debugPrint('Loaded sample ' + sampleName);
