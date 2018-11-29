@@ -26,7 +26,15 @@
 			  -webkit-overflow-scrolling: touch;
 			}
 
-			.muteButton {
+			a,
+			a:hover,
+			a:link,
+			a:visited,
+			a:active {
+				color: #fff;
+			}
+
+			.button {
 				position: fixed;
 				bottom: 20px;
 				right: 20px;
@@ -42,7 +50,13 @@
 			}
 
 			.muted .muteButton {
-				background-image: url('baseline-volume_off-24px.svg')
+				background-image: url('baseline-volume_off-24px.svg');
+			}
+
+			body .infoButton {
+				right: inherit;
+				left: 20px;
+				background-image: url('baseline-help_outline-24px.svg')
 			}
 
 			.overlay {
@@ -75,7 +89,7 @@
 			}
 
 			.dialog button {
-				margin-top: 5px;
+				margin-top: 25px;
 				border: solid 1px #fff;
 				width: 100px;
 			    
@@ -133,6 +147,50 @@
 			  }
 			}
 
+			/* Cross-fade */
+			.crossfade {
+				position: relative;
+			}
+
+			.about .crossfade div {
+				/*transition: all 0.3s ease-in-out;*/
+				animation-name: crossFade;
+				animation-duration: 0.3s;
+				animation-timing-function: ease-in-out;
+			}
+			
+			.info {
+				opacity: 0;
+			}
+
+			.welcome {
+				top: 0;
+				position: absolute;
+				
+				animation-fill-mode: forwards;
+			}
+
+			html .about .info {
+				z-index: 10;
+				animation-direction: reverse;
+				animation-fill-mode: forwards;
+			}
+
+			@keyframes crossFade {
+				0% {
+					opacity: 1;
+					transform: scale(1);
+				}
+				99% {
+					opacity: 0;
+					transform: scale(1);
+				}
+				100% {
+					opacity: 0;
+					transform: scale(0);
+				}
+			}
+
 		</style>
 	</head>
 	<body class="loading">
@@ -141,15 +199,29 @@
 
 		</div>
 
-		<button id="muteButton" class="muteButton">Mute volume</button>
+		<button id="muteButton" class="muteButton button">Mute volume</button>
 
 		<div id="intro" class="overlay">
 			<div class="dialog">
 				<h2>dreamsynth</h2>
-				<p>I saw this in a dream</p>
-				<p>Please unmute your speakers and enjoy.</p>
+
+				<div class="crossfade">
+					<div class="welcome">
+						<p>I saw this in a dream</p>
+						<p>Please unmute your speakers and enjoy</p>
+					</div>
+					
+					<div class="info">
+						<p>music and code by <a href="http://odbol.com">odbol</a></p>
+						<p>3d models from Google Poly
+						   Thanks to THREE.js and Tone.js</p>
+					</div>
+				</div>
+
 				<button class="start" id="startButton">Loading...</button>
 			</div>
+
+			<button id="infoButton" class="infoButton button">About</button>
 		</div>
 
 
@@ -218,6 +290,11 @@
 				} else {
 					document.body.className = document.body.className.replace(' muted', '');
 				}
+			});
+
+			var infoButton = document.getElementById('infoButton');
+			infoButton.addEventListener('click', function (ev) {
+				document.body.className += ' about';
 			});
 
 			var isIntroClosed = false,
