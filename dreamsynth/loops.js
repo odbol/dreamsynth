@@ -117,6 +117,8 @@ Boat.prototype.onMouseOut = function() {
 	setEmissiveColor(this, 0x000000);
 };
 
+// For a11y keyboard control
+var BOAT_KEYCODE_START = 49; // Start with the "1" key.
 
 /**
  * Rotates the boatates and controls the loops when you click on them.
@@ -128,9 +130,10 @@ var Boats = function(scene, loops, modelFiles, onBoatLoadFinished, onBoatLoadSta
 	var self = this;
 	self.models = [];
 	modelFiles.forEach(function(boatFile, i) {
-		var boat = new Boat(i * 120, boatFile.rotation, function() {
+		var toggleLoop = function() {
 			loops.toggle(i);
-		});
+		};
+		var boat = new Boat(i * 120, boatFile.rotation, toggleLoop);
 		onBoatLoadStart && onBoatLoadStart(boat);
 
 		boat.load(encodeURI(boatFile.assetPath + '/'), encodeURI(boatFile.objFile), encodeURI(boatFile.mtlFile))
@@ -148,6 +151,11 @@ var Boats = function(scene, loops, modelFiles, onBoatLoadFinished, onBoatLoadSta
 
 				onBoatLoadFinished && onBoatLoadFinished(boat);
 			});
+
+		// a11y keboard control
+		var label = boatFile.assetPath;
+		label = label.substring(label.lastIndexOf('/') + 1, label.length);
+		a11y.addTopLevel(label, toggleLoop, BOAT_KEYCODE_START + i);
 	});
 };
 
