@@ -656,6 +656,8 @@
 
 				rebuild();
 
+				initKeyboardControl();
+
 				addOnStartedListener(function() {
 					document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 					document.addEventListener( 'touchstart', onDocumentMouseMove, false );
@@ -906,11 +908,31 @@
 				];
 
 				boats = new Boats(scene, loops, boatFiles, decrementLoadingItems, incrementLoadingItems);
-
-
-
 			}
 
+			function initKeyboardControl() {
+				var SLATES_KEYCODE_START = 65; // 'a'
+				var SLATES_KEYCODE_END = 90; // 'z'
+
+				var makeSlateKeyboardCallback = function(tree, i) {
+					return function () {
+						var obj = tree.slates[i];
+						onMouseOverSlate(obj);
+						setTimeout(function () { onMouseOutSlate(obj);}, 400);
+					};
+				};
+				var keysPerTree = Math.floor((SLATES_KEYCODE_END - SLATES_KEYCODE_START) / trees.length);
+
+				// TODO: this is not terribly efficient since it has to make a new callback function for every key.
+				for ( var j = 0; j < trees.length; j++) {
+					var tree = trees[j].child;
+					for (var i = 0; i < tree.slates.length && i < keysPerTree; i++ ) {
+						var keycode = SLATES_KEYCODE_START + j * keysPerTree + i;
+						//debugPrint('makeSlateKeyboardCallback ' + tree.slates[i] + " " + i + " " + keycode);
+						a11y.addKeyboardShortcut(keycode, makeSlateKeyboardCallback(tree, i));
+					}
+				}
+			}
 
 			function initGui() {
 				// Sometimes I love javascript. this fuckery would get any other programming language fired.

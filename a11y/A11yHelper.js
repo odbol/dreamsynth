@@ -12,7 +12,7 @@ var A11yHelper = function() {
 
 	document.addEventListener('keydown', function (event) {
 		var keyCode = event.keyCode;
-		//console.log(keyCode);
+		console.log(keyCode);
 		var shortcut = shortcuts[keyCode];
 		if (shortcut) { 
 			shortcut();
@@ -23,12 +23,15 @@ var A11yHelper = function() {
 	body.insertBefore(a11yContainer, body.firstChild);
 
 	return {
-		addTopLevel : function(label, callback, shortcutKeyCode) {
-			var el = document.createElement('button');
-
+		addKeyboardShortcut : function(shortcutKeyCode, callback) {
 			if (shortcutKeyCode) {
 				shortcuts[shortcutKeyCode] = callback;
 			}
+		},
+		addTopLevel : function(label, callback, shortcutKeyCode) {
+			var el = document.createElement('button');
+
+			this.addKeyboardShortcut(shortcutKeyCode, callback);
 
 			el.innerHTML = label;
 			el.className = 'a11yContainer';
