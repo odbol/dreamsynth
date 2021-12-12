@@ -2,7 +2,7 @@
  // var getProbabilityOfLetter = function(letter) {
 	//  if (letter > 97) //lowercase: make uppercase
 	//  letter -= 32;
-	//  return Math.random() + Math.max(Math.min((letter - 32.0) / (97.0 - 32.0), 1.0), 0);
+	//  return fxrand() + Math.max(Math.min((letter - 32.0) / (97.0 - 32.0), 1.0), 0);
  // }
  
 
@@ -60,7 +60,7 @@ var Tweets = (function() {
 
 
 var ofRandom = function (max) {
-	return Math.random() * max;
+	return fxrand() * max;
 }
 
 var ofDegToRad = function (degrees) {
@@ -123,7 +123,7 @@ TweetTree.prototype.seed1 = function(dotSize, angle, x, y, branchLevel, prob, of
 		
 		this.tweets.incrementLetter();
 		
-		var r = Math.random();
+		var r = fxrand();
 		
 		var xOff = 0;//ofRandom(-OFFSET_SIZE, OFFSET_SIZE);
 		var yOff = 0;//ofRandom(-OFFSET_SIZE, OFFSET_SIZE);
@@ -234,7 +234,7 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 
 	object.scale.x = w;
 	object.scale.z = h;
-	object.scale.y = SLATE_HEIGHT;//Math.random() + 0.5;
+	object.scale.y = SLATE_HEIGHT;//fxrand() + 0.5;
 
 	
 	//notes!

@@ -483,7 +483,7 @@
 
 				for ( var i = 0; i < count; i += 3 ) {
 
-					color.setHex( Math.random() * 0xffffff );
+					color.setHex( fxrand() * 0xffffff );
 
 					colors.push( color.r, color.g, color.b );
 					colors.push( color.r, color.g, color.b );
@@ -658,19 +658,19 @@
 
 				// for ( var i = 0; i < 200; i ++ ) {
 
-				// 	var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+				// 	var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: fxrand() * 0xffffff } ) );
 
-				// 	object.position.x = Math.random() * 800 - 400;
-				// 	object.position.y = Math.random() * 800 - 400;
+				// 	object.position.x = fxrand() * 800 - 400;
+				// 	object.position.y = fxrand() * 800 - 400;
 				// 	object.position.z = -400;
 
-				// 	// object.rotation.x = Math.random() * 2 * Math.PI;
-				// 	// object.rotation.y = Math.random() * 2 * Math.PI;
-				// 	// object.rotation.z = Math.random() * 2 * Math.PI;
+				// 	// object.rotation.x = fxrand() * 2 * Math.PI;
+				// 	// object.rotation.y = fxrand() * 2 * Math.PI;
+				// 	// object.rotation.z = fxrand() * 2 * Math.PI;
 
-				// 	object.scale.x = Math.random() + 0.5;
-				// 	object.scale.y = Math.random() + 0.5;
-				// 	object.scale.z = Math.random() + 0.5;
+				// 	object.scale.x = fxrand() + 0.5;
+				// 	object.scale.y = fxrand() + 0.5;
+				// 	object.scale.z = fxrand() + 0.5;
 
 				// 	scene.add( object );
 

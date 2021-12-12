@@ -56,6 +56,6 @@ var palette = {
 	},
 	getNextColor: function (alpha) {
 		var curPalette = PALETTES[paletteIdx];
-		return curPalette[Math.floor(Math.random() * curPalette.length)];
+		return curPalette[Math.floor(fxrand() * curPalette.length)];
 	}
 };
