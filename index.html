@@ -577,7 +577,7 @@
 
 
 		<script>
-			var ocean, boats;
+			var ocean;
 
 			var container, stats, controls;
 			var camera, scene, raycaster, renderer;
@@ -656,26 +656,6 @@
 
 				var geometry = new THREE.BoxBufferGeometry( 20, 20, 20 );
 
-				// for ( var i = 0; i < 200; i ++ ) {
-
-				// 	var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: fxrand() * 0xffffff } ) );
-
-				// 	object.position.x = fxrand() * 800 - 400;
-				// 	object.position.y = fxrand() * 800 - 400;
-				// 	object.position.z = -400;
-
-				// 	// object.rotation.x = fxrand() * 2 * Math.PI;
-				// 	// object.rotation.y = fxrand() * 2 * Math.PI;
-				// 	// object.rotation.z = fxrand() * 2 * Math.PI;
-
-				// 	object.scale.x = fxrand() + 0.5;
-				// 	object.scale.y = fxrand() + 0.5;
-				// 	object.scale.z = fxrand() + 0.5;
-
-				// 	scene.add( object );
-
-				// }
-
 				initBoats();
 
 				rebuild();
@@ -693,27 +673,6 @@
 				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
-
-				// animate transparency for now
-				// var curBoxIdx = 0;
-				// setInterval(function () {
-				// 	if (++curBoxIdx >= slates.length) {
-				// 		curBoxIdx = 0;
-
-				// 	// rebuild();
-				// 	}
-				// 	var slate = slates[curBoxIdx];
-				// 	if (!slate) return;
-				// 	slate.material.transparent = true;	
-				// 	if (slate.material.opacity > 0.5) {
-				// 		slate.material.opacity = 0.32;
-				// 	} else {
-				// 		slate.material.opacity = 0.75;
-				// 	}
-					
-				// }, 30);
-
-
 
 				if (DEBUG) {
 					initGui();
@@ -769,8 +728,6 @@
 				requestAnimationFrame( animate );
 
 				ocean.update();
-
-				boats.update();
 
 				TWEEN.update();
 
@@ -844,7 +801,6 @@
 				if (clickedMouse) {
 					raycaster.setFromCamera(clickedMouse, camera);
 				}
-				boats.checkMouse(raycaster, clickedMouse);
 				clickedMouse = false;
 
 				renderer.render( scene, camera );
@@ -881,6 +837,7 @@
 							loops.startAll();
 
 							// must mute AFTER starting because that's when volumes are adjusted.
+							// TODO(fxhash): init loops as feature!
 							for (var name in loopFiles) {
 								loops.mute(name, name !== 'pad');
 							}
@@ -889,49 +846,6 @@
 						function (sampleName) {
 							debugPrint('Loaded sample ' + sampleName);
 						});
-
-
-				var boatFiles = [
-					{ 
-						'assetPath': 'models/lighthouse',
-						'mtlFile': 'Lighthouse.mtl',
-						'objFile': 'Lighthouse.obj',
-						scale: 3
-					},
-					{ 
-						'assetPath': 'models/boat',
-						'mtlFile': 'Boat Texture 1.mtl',
-						'objFile': 'Boat Texture 1.obj',
-						scale: 0.045,
-						y: -2,
-						rotation: 4
-					},
-					{ 
-						'assetPath': 'models/sailboat',
-						'mtlFile': '1368 Sailboat.mtl',
-						'objFile': '1368 Sailboat.obj',
-						scale: 0.9,
-						y: -6,
-						rotation: 6
-					},
-					{ 
-						'assetPath': 'models/submarine',
-						'mtlFile': 'submarine.mtl',
-						'objFile': 'submarine.obj',
-						scale: 8,
-						rotation: 6
-					},
-					{ 
-						'assetPath': 'models/blimp',
-						'mtlFile': 'CUPIC_BLIMP.mtl',
-						'objFile': 'CUPIC_BLIMP.obj',
-						scale: 0.07,
-						y: 250,
-						rotation: 4
-					}
-				];
-
-				boats = new Boats(scene, loops, boatFiles, decrementLoadingItems, incrementLoadingItems);
 			}
 
 			function initKeyboardControl() {
