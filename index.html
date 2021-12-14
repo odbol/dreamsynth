@@ -569,7 +569,7 @@
 					// 
 				scene = new THREE.Scene();
 
-				ocean = Ocean(renderer, scene, camera);
+				// ocean = Ocean(renderer, scene, camera);
 
 				raycaster = new THREE.Raycaster();
 
@@ -678,7 +678,7 @@
 
 				requestAnimationFrame( animate );
 
-				ocean.update();
+				ocean && ocean.update();
 
 				TWEEN.update();
 
