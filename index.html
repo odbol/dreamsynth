@@ -73,7 +73,7 @@
 				background: url('baseline-volume_up-24px.svg') no-repeat center center;
 				border: none;
 
-				opacity: 0.4;
+				opacity: 0.2;
 
 				z-index:200;
 
@@ -127,8 +127,8 @@
 			.dialog button {
 				margin-top: 25px;
 				border: solid 1px #fff;
-				width: 100px;
-			    
+				width: 100%;
+				
 			    background: #000 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=) no-repeat 0 0;
 			    background-size: 100% 100%;
 			    animation: loadingbar 140s;
@@ -242,25 +242,8 @@
 
 		<div id="intro" class="overlay">
 			<div class="dialog">
-				<h2>dreamsynth</h2>
-
-				<div class="crossfade">
-					<div class="welcome">
-						<p>I saw this in a dream</p>
-						<p>Please unmute your speakers and enjoy</p>
-					</div>
-					
-					<div class="info">
-						<p>music and code by <a href="http://odbol.com">odbol</a></p>
-						<p>3d models from Google Poly
-						   Thanks to THREE.js and Tone.js</p>
-					</div>
-				</div>
-
 				<button class="start" id="startButton">Loading...</button>
 			</div>
-
-			<button id="infoButton" class="infoButton button">About</button>
 		</div>
 
 
@@ -336,11 +319,6 @@
 			// start muted so they have to click which will start the audio context
 			toggleMute();
 
-			var infoButton = document.getElementById('infoButton');
-			infoButton.addEventListener('click', function (ev) {
-				document.body.className += ' about';
-			});
-
 			var isIntroClosed = false,
 				onStartedListeners = [],
 				addOnStartedListener = function(listener) {
@@ -348,7 +326,7 @@
 				},
 				intro = document.getElementById('intro'),
 				startButton = document.getElementById('startButton');
-			startButton.addEventListener('click', function(ev) {
+			var onLoaded = function(ev) {
 				intro.className += ' closed';
 				setTimeout(function () { intro.style.display = 'none'; }, 350);
 
@@ -360,7 +338,7 @@
 						});
 						onStartedListeners = null;
 					}, 100);
-			});
+			};
 
 			startButton.disabled = true;
 			startButton.innerText = "Loading...";
@@ -372,8 +350,8 @@
 				decrementLoadingItems = function() {
 					if (--numItemsLoading == 0) {
 						document.body.className = document.body.className.replace('loading', 'loaded');
-						startButton.disabled = false;
-						startButton.innerText = "Begin";
+						
+						onLoaded();
 					}
 				};
 
