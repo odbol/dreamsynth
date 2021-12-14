@@ -73,6 +73,8 @@
 				background: url('baseline-volume_up-24px.svg') no-repeat center center;
 				border: none;
 
+				opacity: 0.4;
+
 				z-index:200;
 
 				text-indent: -9999px;
@@ -81,6 +83,10 @@
 
 			.muted .muteButton {
 				background-image: url('baseline-volume_off-24px.svg');
+			}
+
+			.loading .muteButton {
+				display: none;
 			}
 
 			body .infoButton {
@@ -317,14 +323,18 @@
 		<script>
 			// UI
 			var muteButton = document.getElementById('muteButton');
-			muteButton.addEventListener('click', function (ev) {
+			var toggleMute = function (ev) {
 				var isMuted = Tone.Master.mute = !Tone.Master.mute;
 				if (isMuted) {
 					document.body.className += ' muted';
 				} else {
 					document.body.className = document.body.className.replace(' muted', '');
 				}
-			});
+			};
+			muteButton.addEventListener('click', toggleMute);
+
+			// start muted so they have to click which will start the audio context
+			toggleMute();
 
 			var infoButton = document.getElementById('infoButton');
 			infoButton.addEventListener('click', function (ev) {
@@ -367,7 +377,7 @@
 					}
 				};
 
-			StartAudioContext(Tone.context, startButton, function() {debugPrint('auto started')});
+			StartAudioContext(Tone.context, muteButton, function() {debugPrint('auto started')});
 
 		</script>
 
