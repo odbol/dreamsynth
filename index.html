@@ -381,7 +381,7 @@
 
 			var updateSun;
 			var parameters = {
-				distance: 400,
+				distance: 100,
 				inclination: 0.3,
 				azimuth: 0.235
 			};
@@ -395,8 +395,9 @@
 				// camera.position.set( 30, 30, 100 );
 
 				//
+				var sunColor = new THREE.Color('hsl(' + (fxrand() * 360) + ', 100%, 70%)');
 
-				light = new THREE.DirectionalLight( 0xffffff, 0.8 );
+				light = new THREE.DirectionalLight( sunColor, 0.8 );
 				scene.add( light );
 
 				// Water
@@ -415,7 +416,7 @@
 						} ),
 						alpha: 1.0,
 						sunDirection: light.position.clone().normalize(),
-						sunColor: 0xffffff,
+						sunColor: sunColor,
 						waterColor: 0x001e0f,
 						distortionScale: 3.7,
 						fog: scene.fog !== undefined
