@@ -296,6 +296,7 @@
 		<script src="dreamsynth/palettes.js"></script>
 		<script src="dreamsynth/dreamsynth.js"></script>
 		<script src="dreamsynth/loops.js"></script>
+		<script src="dreamsynth/Floor.js"></script>
 
 
 	
@@ -570,6 +571,7 @@
 				scene = new THREE.Scene();
 
 				// ocean = Ocean(renderer, scene, camera);
+				ocean = Floor(renderer, scene, camera);
 
 				raycaster = new THREE.Raycaster();
 
