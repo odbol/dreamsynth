@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import {BLOOM_SCENE, Bloom} from './dreamsynth/Bloom.js';
 
 import {Hill_rebuild} from "./dreamsynth/dreamsynth.js";
+import {Grid} from "./dreamsynth/Grid.js";
 import {Loops} from "./dreamsynth/loops.js";
 // import {Floor} from "./dreamsynth/Floor.js";
 // import "./dreamsynth/Ocean.js";
@@ -56,6 +57,7 @@ function init() {
 
     // ocean = Ocean(renderer, scene, camera);
     // ocean = Floor(renderer, scene, camera);
+    var grid = new Grid(scene);
 
     bloom = Bloom(scene, camera, renderer);
 
