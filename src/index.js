@@ -34,7 +34,6 @@ function rebuild() {
     trees = Hill_rebuild(0);
     for ( var j = 0; j < trees.length; j++) {
         var tree = trees[j].child;
-        tree.group.layers.enable( BLOOM_SCENE );
         scene.add( tree.group );
     }
 }
@@ -87,7 +86,7 @@ function init() {
     controls.maxDistance = 2000.0;
     camera.lookAt( controls.target );
 
-    scene.background = new THREE.Color( 0xf0f0f0 );
+    scene.background = new THREE.Color( 0x000000 );
 
 
     var light = new THREE.DirectionalLight( 0xffffff, 1 );

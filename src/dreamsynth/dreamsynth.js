@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+import {BLOOM_SCENE} from "./Bloom.js";
+
 import {getProbabilityOfLetter} from "./LetterDistributions.js";
 import {palette} from "./palettes.js";
 import {Synth} from './Synth.js';
@@ -280,6 +282,8 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 
 	debugPrint("makeBox ", x, y, w, h, offset, c, octave);
 
+	object.layers.enable( BLOOM_SCENE );
+	
 	self.group.add(object); // add to the THREE.js group
 	self.slates.push(object);
 }
