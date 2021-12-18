@@ -4,17 +4,47 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import {BLOOM_SCENE, Bloom} from './dreamsynth/Bloom.js';
 
 import {Hill_rebuild} from "./dreamsynth/dreamsynth.js";
-import {Grid} from "./dreamsynth/Grid.js";
+import {Mountains} from "./dreamsynth/Mountains.js";
+// import {Grid} from "./dreamsynth/Grid.js";
 import {Loops} from "./dreamsynth/loops.js";
 // import {Floor} from "./dreamsynth/Floor.js";
 // import "./dreamsynth/Ocean.js";
 import {incrementLoadingItems, decrementLoadingItems, addOnStartedListener } from "./dreamsynth/Ui.js";
 
 
+var params = {
+    // MIN_BOX_SIZE : MIN_BOX_SIZE,
+    // MAX_BOX_SIZE : MAX_BOX_SIZE,
+
+    // FRACTAL_BOX_MARGIN : FRACTAL_BOX_MARGIN,
+
+    // OFFSET_SIZE : OFFSET_SIZE,
+    // BRANCH_LENGTH : BRANCH_LENGTH,
+
+    // TWEET_TREE_Y: TWEET_TREE_Y,
+
+    // MODEL_ROTATION: MODEL_ROTATION,
+
+    //showHelpers: false,
+    // cameraX: camera.position.x, 
+    // cameraY: camera.position.y,
+    // cameraZ: camera.position.z,
+
+    
+    mountainsX: 0,
+    mountainsY: -600,
+    mountainsZ: -220,
+    mountainsRotateZ: 0,
+    mountainsRotateY: 0,
+    mountainsRotateX: 0
+};
+
 
 var ocean;
 
 var bloom;
+
+var mountains;
 
 var container, stats, controls;
 var camera, scene, raycaster, renderer;
@@ -55,11 +85,18 @@ function init() {
         // 
     scene = new THREE.Scene();
 
+    bloom = Bloom(scene, camera, renderer);
+
     // ocean = Ocean(renderer, scene, camera);
     // ocean = Floor(renderer, scene, camera);
-    var grid = new Grid(scene);
+    // var grid = new Grid(scene);
+    mountains = new Mountains();
+    mountains.position.z = params.mountainsZ;
+    mountains.position.y = params.mountainsY;
+    mountains.position.x = params.mountainsX;
+    // mountains.layers.enable( BLOOM_SCENE );
+    scene.add( mountains );
 
-    bloom = Bloom(scene, camera, renderer);
 
     raycaster = new THREE.Raycaster();
 
@@ -316,25 +353,6 @@ function initKeyboardControl() {
 
 function initGui() {
     // Sometimes I love javascript. this fuckery would get any other programming language fired.
-    var params = {
-        MIN_BOX_SIZE : MIN_BOX_SIZE,
-        MAX_BOX_SIZE : MAX_BOX_SIZE,
-
-        FRACTAL_BOX_MARGIN : FRACTAL_BOX_MARGIN,
-
-        OFFSET_SIZE : OFFSET_SIZE,
-        BRANCH_LENGTH : BRANCH_LENGTH,
-
-        TWEET_TREE_Y: TWEET_TREE_Y,
-
-        MODEL_ROTATION: MODEL_ROTATION,
-
-        //showHelpers: false,
-        cameraX: camera.position.x, 
-        cameraY: camera.position.y,
-        cameraZ: camera.position.z
-    };
-
     var gui = new dat.GUI();
     
     Object.keys(params).forEach(function(key, el) {
@@ -364,7 +382,14 @@ function initGui() {
                     camera.lookAt( scene.position );
                     
                     render();
-                }
+                } 
+                // else if (key.indexOf('mountains') == 0) {
+
+                //     mountains.position.set( params.mountainsX, params.mountainsY, params.mountainsZ );
+                //     camera.lookAt( scene.position );
+                    
+                //     render();
+                // }
             } );
         }
     });
@@ -372,4 +397,43 @@ function initGui() {
         
     // 	render();
     // } );
+    
+    gui.add( params, 'mountainsX', -1000, 1000 ).onChange( function ( value ) {
+
+        mountains.position.x = Number(value);
+        render();
+
+    } );
+    gui.add( params, 'mountainsY', -1000, 1000 ).onChange( function ( value ) {
+
+        mountains.position.y = Number(value);
+        render();
+
+    } );
+    gui.add( params, 'mountainsZ', -1000, 1000 ).onChange( function ( value ) {
+
+        mountains.position.z = Number(value);
+        render();
+
+    } );
+
+    gui.add( params, 'mountainsRotateZ', -1/2*Math.PI, 1/2*Math.PI ).onChange( function ( value ) {
+
+        mountains.setRotationFromAxisAngle(new THREE.Vector3(1, 0, 0), Number(value));
+        render();
+
+    } );
+    gui.add( params, 'mountainsRotateY', -1/2*Math.PI, 1/2*Math.PI ).onChange( function ( value ) {
+
+        mountains.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), Number(value));
+        render();
+
+    } );
+    gui.add( params, 'mountainsRotateX', -1/2*Math.PI, 1/2*Math.PI ).onChange( function ( value ) {
+
+        mountains.setRotationFromAxisAngle(new THREE.Vector3(0, 0, 1), Number(value));
+        render();
+
+    } );
+
 }
