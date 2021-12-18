@@ -1,8 +1,9 @@
-import { RenderPass } from './examples/jsm/postprocessing/RenderPass.js';
-import { ShaderPass } from './examples/jsm/postprocessing/ShaderPass.js';
-import { UnrealBloomPass } from './examples/jsm/postprocessing/UnrealBloomPass.js';
+import { RenderPass } from '../js/postprocessing/RenderPass.js';
+import { ShaderPass } from '../js/postprocessing/ShaderPass.js';
+import { UnrealBloomPass } from '../js/postprocessing/UnrealBloomPass.js';
 	
-var ENTIRE_SCENE = 0, BLOOM_SCENE = 1;
+export const ENTIRE_SCENE = 0;
+export const BLOOM_SCENE = 1;
 
 var bloomLayer = new THREE.Layers();
 bloomLayer.set( BLOOM_SCENE );
