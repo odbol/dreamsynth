@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
-import {BLOOM_SCENE} from './dreamsynth/Bloom.js';
+import {BLOOM_SCENE, Bloom} from './dreamsynth/Bloom.js';
 
 import {Hill_rebuild} from "./dreamsynth/dreamsynth.js";
 import {Loops} from "./dreamsynth/loops.js";
@@ -12,6 +12,8 @@ import {incrementLoadingItems, decrementLoadingItems, addOnStartedListener } fro
 
 
 var ocean;
+
+var bloom;
 
 var container, stats, controls;
 var camera, scene, raycaster, renderer;
@@ -55,6 +57,8 @@ function init() {
 
     // ocean = Ocean(renderer, scene, camera);
     // ocean = Floor(renderer, scene, camera);
+
+    bloom = Bloom(scene, camera, renderer);
 
     raycaster = new THREE.Raycaster();
 
@@ -239,7 +243,8 @@ function render() {
     }
     clickedMouse = false;
 
-    renderer.render( scene, camera );
+    // renderer.render( scene, camera );
+    bloom.render();
 
 }
 

@@ -2,11 +2,12 @@ import * as THREE from 'three';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 	
 export const ENTIRE_SCENE = 0;
 export const BLOOM_SCENE = 1;
 
-export function Bloom(scene) {
+export function Bloom(scene, camera, renderer) {
 
     var bloomLayer = new THREE.Layers();
     bloomLayer.set( BLOOM_SCENE );
@@ -44,6 +45,7 @@ export function Bloom(scene) {
     };
 
     var darkMaterial = new THREE.MeshBasicMaterial( { color: "black" } );
+    var materials = {};
 
 
     var renderScene = new RenderPass( scene, camera );
@@ -77,12 +79,18 @@ export function Bloom(scene) {
 
 
 
+    var restoreMaterial = function( obj ) {
 
+        if ( materials[ obj.uuid ] ) {
 
+            obj.material = materials[ obj.uuid ];
+            delete materials[ obj.uuid ];
 
+        }
 
+    };
 
-    function render() {
+    var render = function() {
 
         switch ( params.scene ) {
 
@@ -103,9 +111,9 @@ export function Bloom(scene) {
 
         }
 
-    }
+    };
 
-    function renderBloom( mask ) {
+    var renderBloom = function( mask ) {
 
         if ( mask === true ) {
 
@@ -121,9 +129,9 @@ export function Bloom(scene) {
 
         }
 
-    }
+    };
 
-    function darkenNonBloomed( obj ) {
+    var darkenNonBloomed = function( obj ) {
 
         if ( obj.isMesh && bloomLayer.test( obj.layers ) === false ) {
 
@@ -133,4 +141,10 @@ export function Bloom(scene) {
         }
 
     }
+
+    return {
+        render,
+        renderBloom,
+        darkenNonBloomed
+    };
 }
