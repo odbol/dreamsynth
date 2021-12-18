@@ -1,4 +1,4 @@
-var Synth = (function () {
+export function Synth() {
 	var synthIdx = 0,
 		curIntervalIdx = 0,
 		intervals = [ 0, 2, 4, 5, 7, 9, 11, 12 ];
@@ -91,4 +91,4 @@ var Synth = (function () {
 			return intervals[ idx ] + 60 - 36;
 		}
 	};
-})();
+};

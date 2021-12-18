@@ -92,7 +92,7 @@ var letterDist = [
 ];
 
 
-var getProbabilityOfLetter = function(letter) {
+export function getProbabilityOfLetter(letter) {
 	letter = letter.charCodeAt(0);
 	if (letter > 97) //lowercase: make uppercase
 		letter -= 32;

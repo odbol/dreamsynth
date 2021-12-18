@@ -1,3 +1,10 @@
+import * as THREE from 'three';
+
+import {getProbabilityOfLetter} from "./LetterDistributions.js";
+import {palette} from "./palettes.js";
+import {Synth} from './Synth.js';
+
+const SynthFactory = new Synth();
 
  // var getProbabilityOfLetter = function(letter) {
 	//  if (letter > 97) //lowercase: make uppercase
@@ -7,7 +14,8 @@
  
 
 
-var Tweets = (function() { 
+var Tweets = (function() {
+	var tweetIdx = 0;
 	var tweets = [
 		"\"You can lead a horse to bathwater, but you can't throw the baby out the window!\" #crossoquialism",
 		"I love being on BART and seeing two deaf people converse. Is that weird? Man, I wish I knew ASL.",
@@ -190,13 +198,13 @@ TweetTree.prototype.fractalBox = function(x, y, w, h, offset, probabilityOfSplit
 	}
 	else {
 		var numSplit = (ofRandom(3) + 1.0);
-		for (i = 0; i < numSplit; i++) {
+		for (var i = 0; i < numSplit; i++) {
 			var newW = w / numSplit;
 			var newX = x + (newW * i);
 			
 			var ySplit = (ofRandom(3) + 1.0);
 			var newH = h / ySplit;
-			for (j = 0; j < ySplit; j++) {
+			for (var j = 0; j < ySplit; j++) {
 				var newY = y + (newH * j);
 				
 				this.fractalBox(newX, newY, newW, newH, offset++, probabilityOfSplit * 0.06, c);
@@ -241,7 +249,7 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 	//var interval = (( rect.color.g + rect.color.b ) / (255.0 * 2.0))  ); //interval is based on color
 	var interval = getProbabilityOfLetter(this.tweets.getCurLetter(offset));
 	// rect.note = synth.getRandomNote( interval  ); 
-	var note = Synth.getRandomNote(interval);
+	var note = SynthFactory.getRandomNote(interval);
 	var octave = Math.round(((1.0 - (w * h) / (this.dotSize * this.dotSize)) * 3.0)) * 12; //change octave based on size
 	note += octave;
 	var freq = Tone.Frequency(note, "midi");
@@ -354,7 +362,7 @@ var killAll = function () {
 }
 
 var curBoxIdx = 0;
-var Hill_rebuild = function(branchLevel) {
+export function Hill_rebuild(branchLevel) {
 	//isDrawNew = true;
 	killAll();
 	
@@ -370,7 +378,7 @@ var Hill_rebuild = function(branchLevel) {
 	
 	var maxLeaves = 3;//Tweets.numTweets;
 	for ( var i = 0; i < maxLeaves; i++) {
-		var synth = Synth.createNextSynth();
+		var synth = SynthFactory.createNextSynth();
 
 		//if(tweets.getCurLetter() != ' ' || r > prob) {
 			//ofCircle(x, y, dotSize);

@@ -50,7 +50,7 @@ var PALETTES = [
 	] // bowher
 ];
 var paletteIdx = 0;
-var palette = {
+export const palette = {
 	togglePalette: function () {
 		paletteIdx = (paletteIdx + 1) % PALETTES.length;
 	},

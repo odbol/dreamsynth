@@ -15,11 +15,13 @@ toggleMute();
 
 var isIntroClosed = false,
     onStartedListeners = [],
-    addOnStartedListener = function(listener) {
-        onStartedListeners.push(listener);
-    },
     intro = document.getElementById('intro'),
     startButton = document.getElementById('startButton');
+
+export function addOnStartedListener (listener) {
+    onStartedListeners.push(listener);
+};
+
 var onLoaded = function(ev) {
     intro.className += ' closed';
     setTimeout(function () { intro.style.display = 'none'; }, 350);
@@ -37,11 +39,11 @@ var onLoaded = function(ev) {
 startButton.disabled = true;
 startButton.innerText = "Loading...";
 
-var numItemsLoading = 0,
-    incrementLoadingItems = function() {
+var numItemsLoading = 0;
+export function incrementLoadingItems() {
         numItemsLoading++;
-    },
-    decrementLoadingItems = function() {
+    };
+export function decrementLoadingItems() {
         if (--numItemsLoading == 0) {
             document.body.className = document.body.className.replace('loading', 'loaded');
             

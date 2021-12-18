@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 const 	GRID_SIZE = 40,
         GRID_LENGTH = 800,
         GRID_OFFSET = -100;

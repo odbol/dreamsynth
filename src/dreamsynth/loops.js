@@ -1,4 +1,4 @@
-var Loops = function(loopFiles, onLoaded, onProgress) {
+export function Loops(loopFiles, onLoaded, onProgress) {
 	this.loopFiles = loopFiles;
 	var urls = {};
 	for (var name in loopFiles) {
@@ -41,10 +41,10 @@ Loops.prototype.toggle = function(sampleIndex) {
 	player.mute = !player.mute;
 };
 
-var MODEL_ROTATION = 10;
+export const MODEL_ROTATION = 10;
 
 
 
-var onLoaderError = function(err) {
+export function onLoaderError(err) {
 	console.error('Error loading model: ', err);
 };

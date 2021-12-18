@@ -1,4 +1,7 @@
-var Floor = function (renderer, scene, camera) {
+import * as THREE from 'three';
+import { Sky } from 'three/examples/jsm/objects/Sky.js';
+
+export function Floor(renderer, scene, camera) {
         
     var light;
     var controls, water, sphere;
@@ -37,7 +40,7 @@ var Floor = function (renderer, scene, camera) {
 
         // Skybox
 
-        var sky = new THREE.Sky();
+        var sky = new Sky();
         sky.scale.setScalar( 10000 );
         scene.add( sky );
 
@@ -45,7 +48,7 @@ var Floor = function (renderer, scene, camera) {
 
         uniforms.turbidity.value = 10;
         uniforms.rayleigh.value = 2;
-        uniforms.luminance.value = 1;
+        // uniforms.luminance.value = 1;
         uniforms.mieCoefficient.value = 0.005;
         uniforms.mieDirectionalG.value = 0.8;
 

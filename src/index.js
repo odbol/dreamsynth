@@ -1,7 +1,13 @@
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
-const BLOOM_SCENE = 1;
-// import {BLOOM_SCENE} from './dreamsynth/Bloom.js';
+import {BLOOM_SCENE} from './dreamsynth/Bloom.js';
 
+import {Hill_rebuild} from "./dreamsynth/dreamsynth.js";
+import {Loops} from "./dreamsynth/loops.js";
+// import {Floor} from "./dreamsynth/Floor.js";
+// import "./dreamsynth/Ocean.js";
+import {incrementLoadingItems, decrementLoadingItems, addOnStartedListener } from "./dreamsynth/Ui.js";
 
 
 
@@ -48,7 +54,7 @@ function init() {
     scene = new THREE.Scene();
 
     // ocean = Ocean(renderer, scene, camera);
-    ocean = Floor(renderer, scene, camera);
+    // ocean = Floor(renderer, scene, camera);
 
     raycaster = new THREE.Raycaster();
 
@@ -61,7 +67,7 @@ function init() {
         // scene.add(ambientLight);
     }
 
-    controls = new THREE.OrbitControls( camera, renderer.domElement );	
+    controls = new OrbitControls( camera, renderer.domElement );	
     // controls.autoRotate = true;
     // 				controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
     // controls.dampingFactor = 0.25;
