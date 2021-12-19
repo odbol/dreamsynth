@@ -3,11 +3,11 @@ import * as THREE from 'three';
 import { ImprovedNoise } from 'three/examples/jsm/math/ImprovedNoise.js';
 
 const 	
-        GRID_LENGTH = 20000;
+        GRID_LENGTH = 8000;
 
 var mountains;
 export function Mountains() {
-    var worldWidth = 64, worldDepth = 64,
+    var worldWidth = 256, worldDepth = 512,
         worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
 
     var data = generateHeight( worldWidth, worldDepth );
@@ -23,7 +23,7 @@ export function Mountains() {
 
         // Determine row so we gently slope up from one edge (row 0).
         var row = Math.floor(j / edge);
-        var slope = row / numRows;
+        var slope = 1;//row / numRows;
 
         vertices[ j + 1 ] = ((data[ i ] * 3 + 1) / 2 * slope);
 
@@ -47,9 +47,9 @@ export function Mountains() {
 function generateHeight( width, height ) {
 
     var size = width * height, data = new Uint8Array( size ),
-        perlin = new ImprovedNoise(), quality = 1, z = Math.random() * 50 + 50;
+        perlin = new ImprovedNoise(), quality = 1, z = fxrand() * 45 + 5;
 
-    // debug("generateHeight z:" + z);
+    debugPrint("generateHeight z:" + z);
     for ( var j = 0; j < 4; j ++ ) {
 
         for ( var i = 0; i < size; i ++ ) {
