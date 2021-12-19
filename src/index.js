@@ -372,7 +372,7 @@ function initGui() {
 
         } else {
             curValue = params[key];
-            gui.add( params, key, curValue - curValue * 4, curValue + curValue * 4 )
+            gui.add( params, key, curValue - Math.abs(curValue) * 4, curValue + Math.abs(curValue) * 4 )
                 .step( 1 ).name( key )
                 .onChange( function ( value ) {
                 
