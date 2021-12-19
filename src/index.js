@@ -11,6 +11,7 @@ import {Loops} from "./dreamsynth/loops.js";
 // import "./dreamsynth/Ocean.js";
 import {incrementLoadingItems, decrementLoadingItems, addOnStartedListener } from "./dreamsynth/Ui.js";
 
+import './index.css';
 
 var params = {
     // MIN_BOX_SIZE : MIN_BOX_SIZE,
