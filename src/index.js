@@ -32,7 +32,7 @@ var params = {
 
     
     mountainsX: 0,
-    mountainsY: -600,
+    mountainsY: -300,
     mountainsZ: -220,
     mountainsRotateZ: 0,
     mountainsRotateY: 0,
