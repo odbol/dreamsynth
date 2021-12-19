@@ -17,9 +17,9 @@ var PALETTES = [
 	], // red room
 	[
 		'#C869FA', 
-		'#7F2EF6', 
 		// '#060824', 
 		'#2415AB', 
+		'#7F2EF6', 
 		// '#0E086B'
 	], // odbol jellyfish
 	// [
@@ -60,8 +60,8 @@ var PALETTES = [
 	// 	'#E2B059'
 	// ] // bowher
 ];
-var paletteIdx = 0;
-export const palette = {
+var paletteIdx = Math.floor(fxrand() * PALETTES.length);
+const multipalette = {
 	togglePalette: function () {
 		paletteIdx = (paletteIdx + 1) % PALETTES.length;
 	},
@@ -70,6 +70,24 @@ export const palette = {
 		return curPalette[Math.floor(fxrand() * curPalette.length)];
 	}
 };
+
+
+var colorIdx = 0;
+var curColor = multipalette.getNextColor();
+const monopalette = {
+	togglePalette: function () {
+		var curPalette = PALETTES[paletteIdx];
+		curColor = curPalette[colorIdx++ % curPalette.length];
+	},
+	getNextColor: function (alpha) {
+		return curColor;
+	}
+};
+curColor = monopalette.togglePalette();
+
+
+export const palette = 
+		window.$fxhashFeatures.isMultipalette ? multipalette : monopalette; 
 
 
 // DEBUG PRINT PALLETES
