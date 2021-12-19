@@ -26,9 +26,9 @@ var params = {
     // MODEL_ROTATION: MODEL_ROTATION,
 
     //showHelpers: false,
-    // cameraX: camera.position.x, 
-    // cameraY: camera.position.y,
-    // cameraZ: camera.position.z,
+    cameraX: -885, 
+    cameraY: 635,
+    cameraZ: 298,
 
     
     mountainsX: 0,
@@ -81,7 +81,7 @@ function init() {
     
 
     camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
-    camera.position.set( -90, 864, 100 );
+    camera.position.set( params.cameraX, params.cameraY, params.cameraZ );
         // 
     scene = new THREE.Scene();
 
