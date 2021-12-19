@@ -52,13 +52,13 @@ var PALETTES = [
 		'#5272AA'
 	], // iceland sunset
 
-	[
-		'#FBEEB1',
-		'#ECBF74',
-		'#EECB99',
-		// '#D49D3D',
-		'#E2B059'
-	] // bowher
+	// [
+	// 	'#FBEEB1',
+	// 	'#ECBF74',
+	// 	'#EECB99',
+	// 	// '#D49D3D',
+	// 	'#E2B059'
+	// ] // bowher
 ];
 var paletteIdx = 0;
 export const palette = {
