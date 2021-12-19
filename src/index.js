@@ -371,6 +371,9 @@ function initGui() {
             } );
 
         } else {
+            if (key.indexOf('mountains') == 0) {
+                return;
+            }
             curValue = params[key];
             gui.add( params, key, curValue - Math.abs(curValue) * 4, curValue + Math.abs(curValue) * 4 )
                 .step( 1 ).name( key )
