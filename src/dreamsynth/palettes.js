@@ -70,3 +70,18 @@ export const palette = {
 		return curPalette[Math.floor(fxrand() * curPalette.length)];
 	}
 };
+
+
+// DEBUG PRINT PALLETES
+// var r = [];
+// for (var p of PALETTES) {
+// 	for (var c of p) {
+// 		r.push(`
+// .color_${c.substring(1)} {
+// 	backround-color: ${c}
+// }		
+// 		`
+// 		);
+// 	}
+// }
+// console.log(r.join("\n"));
