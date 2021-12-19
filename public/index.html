@@ -406,6 +406,27 @@
 		</script>
 
 
+
+
+		<script>
+
+
+	function calculateProbability(probabilityOfOccuring) {
+	  return fxrand() < probabilityOfOccuring;
+	}
+	
+	window.$fxhashFeatures = {
+	  "loop_bell": calculateProbability(0.8),
+	  "loop_chords": calculateProbability(0.5),
+	  "loop_latin": calculateProbability(0.24),
+	  "loop_techno": calculateProbability(0.1),
+	}
+	debugPrint('features: ', window.$fxhashFeatures);
+	
+		</script>
+	
+	
+
 		<script src="a11y/A11yHelper.js"></script>
 
 		<script src="js/libs/dat.gui.min.js"></script>

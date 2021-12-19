@@ -318,7 +318,7 @@ function initBoats() {
                 // must mute AFTER starting because that's when volumes are adjusted.
                 // TODO(fxhash): init loops as feature!
                 for (var name in loopFiles) {
-                    loops.mute(name, name !== 'pad');
+                    loops.mute(name, name !== 'pad' && !window.$fxhashFeatures['loop_' + name]);
                 }
                 decrementLoadingItems();
             },
