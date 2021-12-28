@@ -165,6 +165,7 @@ class WavyOrbitControls extends EventDispatcher {
 			const twoPI = 2 * Math.PI;
 
             let initialTheta = null;
+            let isStoppingAutoRotate = false;
 
 			return function update() {
 
@@ -187,11 +188,17 @@ class WavyOrbitControls extends EventDispatcher {
 					//rotateUp(rotateUpAngle);
 					spherical.phi = rotateUpAngle;
 
-                    console.log("spherical.theta: " + spherical.theta);
+                    // console.log("spherical.theta: " + spherical.theta);
+                    const FUDGE_AMOUNT = 0.026;
+                    const STOP_EARLY_AMOUNT = 0.026;
                     if (initialTheta === null) {
                         initialTheta = spherical.theta + 0.1;
-                    } else if (spherical.theta > initialTheta - 0.05 && spherical.theta < initialTheta + 0.05) {
-                        scope.autoRotateSpeed = 2;
+                    } else if (spherical.theta - STOP_EARLY_AMOUNT > initialTheta - FUDGE_AMOUNT && spherical.theta - STOP_EARLY_AMOUNT < initialTheta + FUDGE_AMOUNT) {
+                        isStoppingAutoRotate = true;
+                    }
+
+                    if (isStoppingAutoRotate && scope.autoRotateSpeed > 3) {
+                        scope.autoRotateSpeed -= 0.4;
                     }
 				}
 
