@@ -111,7 +111,6 @@ function init() {
     }
 
     controls = new WavyOrbitControls( camera, renderer.domElement );	
-    controls.autoRotate = true;
     controls.autoRotateSpeed = 24;
     controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
     // controls.dampingFactor = 0.25;
@@ -154,6 +153,8 @@ function init() {
         document.addEventListener( 'touchmove', onDocumentMouseMove, false );
         document.addEventListener( 'touchend', onDocumentTouchEnd, false );
         document.addEventListener( 'click', onDocumentMouseClick, false );
+        
+        controls.autoRotate = true;
     });
 
     //
