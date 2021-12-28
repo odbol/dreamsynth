@@ -12,7 +12,7 @@ a:active {
 	right: 20px;
 	width: 48px;
 	height: 48px;
-	background: url('images/round_volume_up_white_24dp.png') no-repeat center center;
+	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAsElEQVQ4y2NgGFrgv8d/e9I0fP7////h/6qEFSb9jwDTKf/fA7V8+G+LX3kjUNEPKFv0/3og7/1/ddzKG/6DAZzP+n8r2GGMeJVDNABN5wWSAkBH/f/vgqrwyH80ABb9/38DmG4BsuajaviPQ8P//yZA2hpI3yJWQy6QFgbSX2mmwRi7k0j1NFxjPYqGdTiDFVMLkREH10J80gAri/0fDqZTiUp8ZCRvuAY3EjPQwAAA9HUsfxIc6rQAAAAASUVORK5CYII=") no-repeat center center;
 	border: none;
 
 	opacity: 0.6;
@@ -24,7 +24,7 @@ a:active {
 }
 
 .muted .muteButton {
-	background-image: url('images/round_volume_off_white_24dp.png');
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAA+0lEQVQ4y83TPUoDURAA4LEQBBEEiTdQsBEFFVEQCyGQCwiClcRrbGMT9AJWHiE2HsCfG6yVN7CQrIgYq88iu/kzyabMVI/hfTxm3kzErIZt11b/ZauOx4EbvA4TX3i2NgpUpD3izGlEhAstZI5KiJrPbraJlvVS0s3Oe8CTudHkvb8WTUsRlmU4Gbz6oj+KWtruIyJc4W4QDEeqEqGmbSfCId4mgx65jLCC7zJQkIUIi8jKX8hJhC2kk4pG3uTOK7t+3I4ekaS43/2XDqk6GDdVSQEGyaTJTdDOzxt+pyHn+fDVZf0dK9+SDzzal6IxDdjrLJCKhs2Z3f4/57xXqFeXkjYAAAAASUVORK5CYII=");
 }
 
 .loading .muteButton {
@@ -34,7 +34,7 @@ a:active {
 body .infoButton {
 	right: inherit;
 	left: 20px;
-	background-image: url('images/rounded-help_outline-24dp.png')
+	background-image: url('./images/rounded-help_outline-24dp.png')
 }
 
 .overlay {
