@@ -128,6 +128,10 @@ function init() {
     camera.lookAt( controls.target );
 
     controls.addEventListener('end', () => controls.autoRotate = false);
+    controls.addEventListener('endAutoRotate', () => {
+        // now trigger preview after autorotate
+        fxpreview && fxpreview();
+    });
 
     scene.background = new THREE.Color( 0x000000 );
 
@@ -150,8 +154,6 @@ function init() {
         document.addEventListener( 'touchmove', onDocumentMouseMove, false );
         document.addEventListener( 'touchend', onDocumentTouchEnd, false );
         document.addEventListener( 'click', onDocumentMouseClick, false );
-
-        fxpreview && fxpreview();
     });
 
     //
