@@ -12,7 +12,7 @@ a:active {
 	right: 20px;
 	width: 48px;
 	height: 48px;
-	background: url('images/baseline-volume_up-24px.svg') no-repeat center center;
+	background: url('images/round_volume_up_white_24dp.png') no-repeat center center;
 	border: none;
 
 	opacity: 0.6;
@@ -24,7 +24,7 @@ a:active {
 }
 
 .muted .muteButton {
-	background-image: url('images/baseline-volume_off-24px.svg');
+	background-image: url('images/round_volume_off_white_24dp.png');
 }
 
 .loading .muteButton {
@@ -34,7 +34,7 @@ a:active {
 body .infoButton {
 	right: inherit;
 	left: 20px;
-	background-image: url('images/baseline-help_outline-24px.svg')
+	background-image: url('images/rounded-help_outline-24dp.png')
 }
 
 .overlay {
