@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { WavyOrbitControls } from './dreamsynth/WavyOrbitControls.js'
 
 import {BLOOM_SCENE, Bloom} from './dreamsynth/Bloom.js';
 
@@ -110,21 +110,24 @@ function init() {
         // scene.add(ambientLight);
     }
 
-    controls = new OrbitControls( camera, renderer.domElement );	
-    // controls.autoRotate = true;
-    // 				controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    controls = new WavyOrbitControls( camera, renderer.domElement );	
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 24;
+    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
     // controls.dampingFactor = 0.25;
     // controls.screenSpacePanning = false;
     // controls.minDistance = 100;
     // controls.maxDistance = 500;
     // controls.maxPolarAngle = Math.PI / 2;
 
-    // controls = new THREE.OrbitControls( camera, renderer.domElement );
+    // controls = new THREE.WavyOrbitControls( camera, renderer.domElement );
     controls.maxPolarAngle = Math.PI * 0.495;
     controls.target.set( 0, 10, 0 );
     controls.minDistance = 40.0;
     controls.maxDistance = 2000.0;
     camera.lookAt( controls.target );
+
+    controls.addEventListener('end', () => controls.autoRotate = false);
 
     scene.background = new THREE.Color( 0x000000 );
 
