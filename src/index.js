@@ -147,6 +147,8 @@ function init() {
         document.addEventListener( 'touchmove', onDocumentMouseMove, false );
         document.addEventListener( 'touchend', onDocumentTouchEnd, false );
         document.addEventListener( 'click', onDocumentMouseClick, false );
+
+        fxpreview && fxpreview();
     });
 
     //

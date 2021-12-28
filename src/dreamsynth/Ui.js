@@ -33,7 +33,7 @@ var onLoaded = function(ev) {
                 listener();
             });
             onStartedListeners = null;
-        }, 100);
+        }, 350);
 };
 
 startButton.disabled = true;
