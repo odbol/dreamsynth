@@ -71,6 +71,7 @@ function rebuild() {
 }
 
 function init() {
+    incrementLoadingItems();
 
     container = document.getElementById( 'container' );
 
@@ -164,6 +165,8 @@ function init() {
     if (DEBUG) {
         initGui();
     }
+
+    decrementLoadingItems(true);
 }
 
 function onWindowResize() {
