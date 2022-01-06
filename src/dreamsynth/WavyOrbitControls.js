@@ -184,7 +184,7 @@ class WavyOrbitControls extends EventDispatcher {
 					const rotateLeftAngle = getAutoRotationAngle();
 					rotateLeft( rotateLeftAngle );
 					
-					const rotateUpAngle = Math.cos(spherical.theta) * 0.3 + 1.1;// * 0.04 + 0.05;
+					const rotateUpAngle = Math.cos(spherical.theta) * 0.25 + 1.0;// * 0.04 + 0.05;
 					// console.log(rotateUpAngle);
 					//rotateUp(rotateUpAngle);
 					spherical.phi = rotateUpAngle;
