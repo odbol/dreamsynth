@@ -46,10 +46,10 @@ export function incrementLoadingItems() {
 export function decrementLoadingItems(isPartiallyLoaded) {
         if (--numItemsLoading == 0) {
             document.body.className = document.body.className.replace('loading', 'loaded');
-            
-            onLoaded();
         } else if (isPartiallyLoaded) {
             document.body.className += ' partiallyLoaded';
+            
+            onLoaded();
         }
     };
 
