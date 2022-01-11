@@ -102,21 +102,58 @@ export function Synth() {
 					synth.volume.value = -2;
 					return synth;
 				case 1:
-					// Distorted
-					synth = new Tone.PolySynth(12, Tone.FMSynth)
+					// Softie
+					synth = new Tone.PolySynth(12, Tone.AMSynth)
 						.set(
-						{
-							"oscillator" : {
-								"type" : "pwm",
-								"modulationFrequency" : 0.2
-							},
-							"envelope" : {
-								"attack" : 0.02,
-								"decay" : 0.2,
-								"sustain" : 0.1,
-								"release" : 0.6,
+							{
+								"volume": 0,
+								"detune": 0,
+								"portamento": 0,
+								"harmonicity": 2.5,
+								"oscillator": {
+									"partialCount": 2,
+									"partials": [
+										0.6366197466850281,
+										0.11578896604938266
+									],
+									"phase": 0,
+									"type": "fatcustom",
+									"count": 3,
+									"spread": 14
+								},
+								"envelope": {
+									"attack": 0.1,
+									"attackCurve": "linear",
+									"decay": 2.2,
+									"decayCurve": "exponential",
+									"release": 4.9030000000000005,
+									"releaseCurve": "exponential",
+									"sustain": 0.92
+								},
+								"modulation": {
+									"partialCount": 7,
+									"partials": [
+										0.8105694691387023,
+										0,
+										-0.0900632743487447,
+										0,
+										0.03242277876554809,
+										0,
+										-0.016542234064055146
+									],
+									"phase": 0,
+									"type": "triangle7"
+								},
+								"modulationEnvelope": {
+									"attack": 0.015,
+									"attackCurve": "linear",
+									"decay": 0.009999999999999787,
+									"decayCurve": "exponential",
+									"release": 0.5,
+									"releaseCurve": "exponential",
+									"sustain": 1
+								}
 							}
-						}
 					).toMaster();
 					synth.volume.value = -15;
 					return synth;
