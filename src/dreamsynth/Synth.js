@@ -103,7 +103,7 @@ export function Synth() {
 					return synth;
 				case 1:
 					// Softie
-					synth = new Tone.PolySynth(12, Tone.AMSynth)
+					synth = new Tone.PolySynth(4, Tone.AMSynth)
 						.set(
 							{
 								"volume": 0,
