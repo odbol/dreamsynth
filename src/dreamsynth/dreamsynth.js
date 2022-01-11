@@ -80,7 +80,7 @@ var ofDegToRad = function (degrees) {
 
 
 var TWEET_TREE_Y = 50;
-var SLATE_HEIGHT = 2;
+var SLATE_HEIGHT = 200;
 
 var MIN_BOX_SIZE = 10.0;
 var MAX_BOX_SIZE = 89.0;
@@ -238,13 +238,14 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 	var object = new THREE.Mesh( geometry, material );
 
 	// YES, the z and y are swapped: to make it horizontal to the ocean.
+	var scaleY = TWEET_TREE_Y + (50 * this.depth) + (offset * TWEET_TREE_Y);
 	object.position.x = x;
 	object.position.z = y;
-	object.position.y = TWEET_TREE_Y + (50 * this.depth) + (offset * SLATE_HEIGHT);
+	object.position.y = -TWEET_TREE_Y * 2 + scaleY / 2;
 
 	object.scale.x = w;
 	object.scale.z = h;
-	object.scale.y = SLATE_HEIGHT;//fxrand() + 0.5;
+	object.scale.y = scaleY;//fxrand() + 0.5;
 
 	
 	//notes!
