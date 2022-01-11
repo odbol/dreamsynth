@@ -209,6 +209,10 @@ TweetTree.prototype.fractalBox = function(x, y, w, h, offset, probabilityOfSplit
 			for (var j = 0; j < ySplit; j++) {
 				var newY = y + (newH * j);
 				
+				// Cluster buildings Circularly
+				newX = Math.cos(newX) * newX * 4;
+				newY = Math.sin(newY) * newY * 2;
+
 				this.fractalBox(newX, newY, newW, newH, offset++, probabilityOfSplit * 0.06, c);
 			}
 		}
