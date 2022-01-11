@@ -155,7 +155,7 @@ export function Synth() {
 								}
 							}
 					).toMaster();
-					synth.volume.value = -15;
+					synth.volume.value = -5;
 					return synth;
 			};
 		},
