@@ -245,7 +245,7 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 	var scaleY = TWEET_TREE_Y + (50 * this.depth) + (offset * TWEET_TREE_Y);
 	object.position.x = x;
 	object.position.z = y;
-	object.position.y = -TWEET_TREE_Y * 2 + scaleY / 2;
+	object.position.y = -TWEET_TREE_Y * 4 + scaleY / 2;
 
 	object.scale.x = w;
 	object.scale.z = h;
