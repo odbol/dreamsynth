@@ -1,7 +1,13 @@
 export function Synth() {
 	var synthIdx = 0,
 		curIntervalIdx = 0,
-		intervals = [ 0, 2, 4, 5, 7, 9, 11, 12 ];
+		// Minor?
+		// intervals = [ 0, 2, 4, 5, 7, 9, 11, 12 ];
+		// Dorian:       2, 1, 2, 2, 2, 1, 2
+		intervals = [ 0, 2, 3, 5, 7, 9, 10, 12 ];
+	
+	// const ROOT_NOTE = 60; // C
+	const ROOT_NOTE = 64; // E
 
 	return {
 		createNextSynth: function() {
@@ -70,7 +76,7 @@ export function Synth() {
 							"modulationIndex": 12.22
 						}
 					).toMaster();
-					synth.volume.value = -10;
+					synth.volume.value = -14;
 					return synth;
 				case 2:
 					// Kalimba
@@ -165,7 +171,7 @@ export function Synth() {
 				idx = idx % intervals.length;
 			else if (idx < 0)
 				idx = 0;
-			return intervals[ idx ] + 60 - 36;
+			return intervals[ idx ] + ROOT_NOTE - 36;
 		}
 	};
 };

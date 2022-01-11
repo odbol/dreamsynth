@@ -304,21 +304,21 @@ function initBoats() {
 
     var loopFiles = {
             'pad' : {
-                url: 'samples/pad.m4a'
+                url: 'samples/pad.mp3'
             },
             'bell' : {
-                url: 'samples/bell.m4a'
+                url: 'samples/bass.mp3'
             },
             'chords' : {
-                url: 'samples/chords.m4a'
+                url: 'samples/choppybits.mp3'
             },
             'latin' : {
-                url: 'samples/latin.m4a',
-                volume: -16
+                url: window.$fxhashFeatures['lively'] ? 'samples/drums-lively.mp3' : 'samples/drums-sparse.mp3',
+                volume: -7
             },
-            'techno' : {
-                url: 'samples/techno.m4a',
-                volume: -10
+            'short' : {
+                url: 'samples/dropsticks-short.mp3',
+                // volume: -10
             }
         },
         loops = new Loops(loopFiles,
