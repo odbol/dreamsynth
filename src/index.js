@@ -130,7 +130,7 @@ function init() {
     controls.addEventListener('end', () => controls.autoRotate = false);
     controls.addEventListener('endAutoRotate', () => {
         // now trigger preview after autorotate
-        fxpreview && fxpreview();
+        fxpreview && setTimeout(fxpreview, 7000);
     });
 
     scene.background = new THREE.Color( 0x000000 );
