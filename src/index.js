@@ -314,10 +314,10 @@ function initBoats() {
     incrementLoadingItems();
 
     var loopFiles = {
-            'pad' : {
+            'bass' : {
                 url: window.$fxhashFeatures['lively'] ? 'samples/dreamsynth-bass.mp3' : 'samples/analog-bass.mp3'
             },
-            'bass' : {
+            'bleeps' : {
                 url: 'samples/dreamsynth-bleeps.mp3'
             },
             'chords' : {
@@ -341,7 +341,7 @@ function initBoats() {
                 // must mute AFTER starting because that's when volumes are adjusted.
                 // TODO(fxhash): init loops as feature!
                 for (var name in loopFiles) {
-                    loops.mute(name, name !== 'pad' && !window.$fxhashFeatures['loop_' + name]);
+                    loops.mute(name, name !== 'bass' && !window.$fxhashFeatures['loop_' + name]);
                 }
                 decrementLoadingItems();
             },
