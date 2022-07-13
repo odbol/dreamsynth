@@ -79,7 +79,7 @@ var ofDegToRad = function (degrees) {
 
 
 
-var TWEET_TREE_Y = 50;
+var TWEET_TREE_Y = 150;
 var SLATE_HEIGHT = 200;
 
 var MIN_BOX_SIZE = 10.0;
