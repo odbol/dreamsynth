@@ -24,60 +24,27 @@ export function Synth() {
 						.set({
 							"volume": 0,
 							"detune": 0,
-							"portamento": .5,
-							"harmonicity": 1.5999999999999994,
-							"oscillator": {
-								"partialCount": 10,
-								"partials": [
-									1,
-									1,
-									1,
-									1,
-									1,
-									1,
-									1,
-									1,
-									1,
-									1
-								],
-								"phase": -11,
-								"type": "sine10"
-							},
+							"portamento": 0,
+							// "harmonicity": 1.5999999999999994,
 							"envelope": {
-								"attack": 0.0010000000000000009,
+								"attack": 1.005,
 								"attackCurve": "linear",
-								"decay": 0.2,
+								"decay": 0.1,
 								"decayCurve": "exponential",
-								"release": 0.5,
+								"release": 1,
 								"releaseCurve": "exponential",
-								"sustain": 1
+								"sustain": 0.3
 							},
-							"modulation": {
-								"partialCount": 9,
+							"oscillator": {
+								"partialCount": 3,
 								"partials": [
-									0.8105694651603699,
-									0,
-									-0.09006327390670776,
-									0,
-									0.03242277726531029,
-									0,
-									-0.016542233526706696,
-									0,
-									0
+									0.31640625,
+									0.0007716049382716042,
+									0.019775390625
 								],
-								"phase": 11,
+								"phase": 0,
 								"type": "custom"
-							},
-							"modulationEnvelope": {
-								"attack": 0.2,
-								"attackCurve": "linear",
-								"decay": 0.01,
-								"decayCurve": "exponential",
-								"release": 0.5,
-								"releaseCurve": "exponential",
-								"sustain": 1
-							},
-							"modulationIndex": 12.22
+							}
 						}
 					).toMaster();
 					synth.volume.value = -14;
@@ -113,53 +80,51 @@ export function Synth() {
 					return synth;
 				case 1:
 					// Softie
-					synth = new Tone.PolySynth(4, Tone.AMSynth)
+					synth = new Tone.PolySynth(2, Tone.AMSynth)
 						.set(
 							{
 								"volume": 0,
 								"detune": 0,
 								"portamento": 0,
-								"harmonicity": 2.5,
+								"harmonicity": 0.5,
 								"oscillator": {
-									"partialCount": 2,
+									"partialCount": 3,
 									"partials": [
-										0.6366197466850281,
-										0.11578896604938266
+										0.6366197723675814,
+										-0.3183098861837907,
+										0.2122065907891938
 									],
 									"phase": 0,
-									"type": "fatcustom",
+									"type": "fatsawtooth3",
 									"count": 3,
-									"spread": 14
+									"spread": 20
 								},
 								"envelope": {
 									"attack": 0.1,
 									"attackCurve": "linear",
-									"decay": 2.2,
+									"decay": 0.3,
 									"decayCurve": "exponential",
-									"release": 4.9030000000000005,
+									"release": 1.3,
 									"releaseCurve": "exponential",
-									"sustain": 0.92
+									"sustain": 0.2
 								},
 								"modulation": {
-									"partialCount": 7,
+									"partialCount": 4,
 									"partials": [
-										0.8105694691387023,
-										0,
-										-0.0900632743487447,
-										0,
-										0.03242277876554809,
-										0,
-										-0.016542234064055146
+										0.019775390625,
+										0.001883801118827162,
+										1,
+										1
 									],
 									"phase": 0,
-									"type": "triangle7"
+									"type": "custom"
 								},
 								"modulationEnvelope": {
-									"attack": 0.015,
+									"attack": 3.5,
 									"attackCurve": "linear",
-									"decay": 0.009999999999999787,
+									"decay": 0.01,
 									"decayCurve": "exponential",
-									"release": 0.5,
+									"release": 7.5,
 									"releaseCurve": "exponential",
 									"sustain": 1
 								}
