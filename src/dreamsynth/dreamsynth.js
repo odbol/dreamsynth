@@ -219,7 +219,7 @@ TweetTree.prototype.fractalBox = function(x, y, w, h, offset, probabilityOfSplit
 	}
 }
 
-var geometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
+var geometry = new THREE.SphereBufferGeometry( 1, 32, 32 );
 
 TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {	
 	var self = this;
@@ -227,9 +227,9 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 	var material = new THREE.MeshPhysicalMaterial( {
 					map: null,
 					color: c,
-					metalness: 1.0,
+					metalness: 0.95,
 					roughness: 0.6,
-					opacity: 0.75,
+					opacity: 0.95,
 					side: THREE.FrontSide,
 					transparent: true,
 					envMapIntensity: 5,
@@ -248,8 +248,8 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 	object.position.y = -TWEET_TREE_Y * 4 + scaleY / 2;
 
 	object.scale.x = w;
-	object.scale.z = h;
-	object.scale.y = scaleY;//fxrand() + 0.5;
+	object.scale.z = w;
+	object.scale.y = w;//scaleY;//fxrand() + 0.5;
 
 	
 	//notes!
