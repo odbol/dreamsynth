@@ -304,7 +304,7 @@ function initBoats() {
 
     var loopFiles = {
             'pad' : {
-                url: 'samples/analog-bass.mp3'
+                url: window.$fxhashFeatures['lively'] ? 'samples/dreamsynth-bass.mp3' : 'samples/analog-bass.mp3'
             },
             'bass' : {
                 url: 'samples/dreamsynth-bleeps.mp3'
