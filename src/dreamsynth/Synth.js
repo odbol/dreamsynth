@@ -23,9 +23,9 @@ export function Synth() {
 					synth = new Tone.PolySynth(1, Tone.FMSynth)
 						.set({
 							"volume": 0,
-							"detune": 0,
+							"detune": 100 * 12 * - 3, // drop this one 3 octaves
 							"portamento": 0,
-							// "harmonicity": 1.5999999999999994,
+							//"harmonicity": 1.5999999999999994,
 							"envelope": {
 								"attack": 1.005,
 								"attackCurve": "linear",
