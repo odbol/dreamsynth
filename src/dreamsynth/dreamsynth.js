@@ -1,4 +1,9 @@
-import * as THREE from 'three';
+import {Group,
+	SphereBufferGeometry,
+	MeshLambertMaterial,
+	MeshPhysicalMaterial,
+	FrontSide,
+	Mesh} from 'three';
 
 import {BLOOM_SCENE} from "./Bloom.js";
 
@@ -109,7 +114,7 @@ var TweetTree = function () {
 	this.angleOffsetA = ofDegToRad(1.5);
 	this.angleOffsetB = ofDegToRad(50);
 
-	this.group = new THREE.Group();
+	this.group = new Group();
 };
 
 TweetTree.prototype.setup = function(tweetIdx, synth) {
@@ -219,18 +224,18 @@ TweetTree.prototype.fractalBox = function(x, y, w, h, offset, probabilityOfSplit
 	}
 }
 
-var geometry = new THREE.SphereBufferGeometry( 1, 32, 32 );
+var geometry = new SphereBufferGeometry( 1, 32, 32 );
 
 TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {	
 	var self = this;
-	// var material = new THREE.MeshLambertMaterial( { color: c } );
-	var material = new THREE.MeshPhysicalMaterial( {
+	// var material = new MeshLambertMaterial( { color: c } );
+	var material = new MeshPhysicalMaterial( {
 					map: null,
 					color: c,
 					metalness: 0.95,
 					roughness: 0.6,
 					opacity: 0.95,
-					side: THREE.FrontSide,
+					side: FrontSide,
 					transparent: true,
 					envMapIntensity: 5,
 					premultipliedAlpha: true
@@ -239,7 +244,7 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 	// material.transparent = true;
 	// material.opacity = 0.75;
 
-	var object = new THREE.Mesh( geometry, material );
+	var object = new Mesh( geometry, material );
 
 	// YES, the z and y are swapped: to make it horizontal to the ocean.
 	var scaleY = TWEET_TREE_Y + (50 * this.depth) + (offset * TWEET_TREE_Y);
@@ -289,7 +294,7 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 
 	object.layers.enable( BLOOM_SCENE );
 	
-	self.group.add(object); // add to the THREE.js group
+	self.group.add(object); // add to the js group
 	self.slates.push(object);
 }
 

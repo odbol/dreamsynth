@@ -1,4 +1,9 @@
-import * as THREE from 'three';
+import {
+    Layers,
+MeshBasicMaterial,
+Vector2,
+ShaderMaterial
+} from 'three';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
@@ -9,7 +14,7 @@ export const BLOOM_SCENE = 1;
 
 export function Bloom(scene, camera, renderer) {
 
-    var bloomLayer = new THREE.Layers();
+    var bloomLayer = new Layers();
     bloomLayer.set( BLOOM_SCENE );
 
 
@@ -44,13 +49,13 @@ export function Bloom(scene, camera, renderer) {
         edgeThreshold: 0.99	
     };
 
-    var darkMaterial = new THREE.MeshBasicMaterial( { color: "black" } );
+    var darkMaterial = new MeshBasicMaterial( { color: "black" } );
     var materials = {};
 
 
     var renderScene = new RenderPass( scene, camera );
 
-    var bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
+    var bloomPass = new UnrealBloomPass( new Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
     bloomPass.threshold = params.bloomThreshold;
     bloomPass.strength = params.bloomStrength;
     bloomPass.radius = params.bloomRadius;
@@ -61,7 +66,7 @@ export function Bloom(scene, camera, renderer) {
     bloomComposer.addPass( bloomPass );
 
     var finalPass = new ShaderPass(
-        new THREE.ShaderMaterial( {
+        new ShaderMaterial( {
             uniforms: {
                 baseTexture: { value: null },
                 bloomTexture: { value: bloomComposer.renderTarget2.texture }

@@ -1,4 +1,11 @@
-import * as THREE from 'three';
+import {PerspectiveCamera,
+    Color,
+    DirectionalLight,
+    PlaneBufferGeometry,
+    MeshStandardMaterial,
+    Mesh,
+    CubeCamera,
+    LinearMipMapLinearFilter} from 'three';
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
 
 export function Floor(renderer, scene, camera) {
@@ -18,22 +25,22 @@ export function Floor(renderer, scene, camera) {
 
         //
 
-        // camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
+        // camera = new PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
         // camera.position.set( 30, 30, 100 );
 
         //
-        var sunColor = new THREE.Color('hsl(' + (fxrand() * 360) + ', 100%, 70%)');
+        var sunColor = new Color('hsl(' + (fxrand() * 360) + ', 100%, 70%)');
 
-        light = new THREE.DirectionalLight( sunColor, 0.8 );
+        light = new DirectionalLight( sunColor, 0.8 );
         scene.add( light );
 
         // Water
 
-        var waterGeometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
+        var waterGeometry = new PlaneBufferGeometry( 10000, 10000 );
 
-        var material = new THREE.MeshStandardMaterial( { color: 0xffffff, roughness: 0.1, metalness: 0 } );
+        var material = new MeshStandardMaterial( { color: 0xffffff, roughness: 0.1, metalness: 0 } );
 
-        water = new THREE.Mesh( waterGeometry, material );
+        water = new Mesh( waterGeometry, material );
         water.rotation.x = - Math.PI / 2;
 
         scene.add( water );
@@ -52,8 +59,8 @@ export function Floor(renderer, scene, camera) {
         uniforms.mieCoefficient.value = 0.005;
         uniforms.mieDirectionalG.value = 0.8;
 
-        var cubeCamera = new THREE.CubeCamera( 1, 20000, 256 );
-        cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+        var cubeCamera = new CubeCamera( 1, 20000, 256 );
+        cubeCamera.renderTarget.texture.minFilter = LinearMipMapLinearFilter;
 
         updateSun = function() {
 

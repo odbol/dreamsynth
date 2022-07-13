@@ -1,4 +1,15 @@
-import * as THREE from 'three';
+import {
+    Vector2,
+WebGLRenderer,
+PerspectiveCamera,
+Scene,
+Raycaster,
+AmbientLight,
+Color,
+DirectionalLight,
+BoxBufferGeometry,
+Vector3} from 'three';
+
 import { WavyOrbitControls } from './dreamsynth/WavyOrbitControls.js'
 
 import {BLOOM_SCENE, Bloom} from './dreamsynth/Bloom.js';
@@ -50,7 +61,7 @@ var mountains;
 var container, stats, controls;
 var camera, scene, raycaster, renderer;
 
-var mouse = new THREE.Vector2(-500, -500), INTERSECTED;
+var mouse = new Vector2(-500, -500), INTERSECTED;
 var radius = 100, theta = 0;
 
 var trees = [];
@@ -76,16 +87,16 @@ function init() {
     container = document.getElementById( 'container' );
 
 
-    renderer = new THREE.WebGLRenderer();
+    renderer = new WebGLRenderer();
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );
     
 
-    camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
+    camera = new PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
     camera.position.set( params.cameraX, params.cameraY, params.cameraZ );
         // 
-    scene = new THREE.Scene();
+    scene = new Scene();
 
     bloom = Bloom(scene, camera, renderer);
 
@@ -100,14 +111,14 @@ function init() {
     scene.add( mountains );
 
 
-    raycaster = new THREE.Raycaster();
+    raycaster = new Raycaster();
 
 
     if (DEBUG) {
         stats = new Stats();
         container.appendChild( stats.dom );
 
-        // var ambientLight = new THREE.AmbientLight('#fff');
+        // var ambientLight = new AmbientLight('#fff');
         // scene.add(ambientLight);
     }
 
@@ -120,7 +131,7 @@ function init() {
     // controls.maxDistance = 500;
     // controls.maxPolarAngle = Math.PI / 2;
 
-    // controls = new THREE.WavyOrbitControls( camera, renderer.domElement );
+    // controls = new WavyOrbitControls( camera, renderer.domElement );
     controls.maxPolarAngle = Math.PI * 0.495;
     controls.target.set( 0, 10, 0 );
     controls.minDistance = 40.0;
@@ -133,14 +144,14 @@ function init() {
         fxpreview && setTimeout(fxpreview, 7000);
     });
 
-    scene.background = new THREE.Color( 0x000000 );
+    scene.background = new Color( 0x000000 );
 
 
-    var light = new THREE.DirectionalLight( 0xffffff, 1 );
+    var light = new DirectionalLight( 0xffffff, 1 );
     light.position.set( 1, 1, 1 ).normalize();
     scene.add( light );
 
-    var geometry = new THREE.BoxBufferGeometry( 20, 20, 20 );
+    var geometry = new BoxBufferGeometry( 20, 20, 20 );
 
     initBoats();
 
@@ -249,9 +260,9 @@ function render() {
     // required if controls.enableDamping or controls.autoRotate are set to true
     controls.update();
 
-    // camera.position.x = radius * Math.sin( THREE.Math.degToRad( theta ) );
-    // camera.position.y = radius * Math.sin( THREE.Math.degToRad( theta ) );
-    // camera.position.z = radius * Math.cos( THREE.Math.degToRad( theta ) );
+    // camera.position.x = radius * Math.sin( Math.degToRad( theta ) );
+    // camera.position.y = radius * Math.sin( Math.degToRad( theta ) );
+    // camera.position.z = radius * Math.cos( Math.degToRad( theta ) );
     // camera.lookAt( scene.position );
 
     camera.updateMatrixWorld();
@@ -434,19 +445,19 @@ function initGui() {
 
     gui.add( params, 'mountainsRotateZ', -1/2*Math.PI, 1/2*Math.PI ).onChange( function ( value ) {
 
-        mountains.setRotationFromAxisAngle(new THREE.Vector3(1, 0, 0), Number(value));
+        mountains.setRotationFromAxisAngle(new Vector3(1, 0, 0), Number(value));
         render();
 
     } );
     gui.add( params, 'mountainsRotateY', -1/2*Math.PI, 1/2*Math.PI ).onChange( function ( value ) {
 
-        mountains.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), Number(value));
+        mountains.setRotationFromAxisAngle(new Vector3(0, 1, 0), Number(value));
         render();
 
     } );
     gui.add( params, 'mountainsRotateX', -1/2*Math.PI, 1/2*Math.PI ).onChange( function ( value ) {
 
-        mountains.setRotationFromAxisAngle(new THREE.Vector3(0, 0, 1), Number(value));
+        mountains.setRotationFromAxisAngle(new Vector3(0, 0, 1), Number(value));
         render();
 
     } );

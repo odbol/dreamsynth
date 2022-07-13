@@ -1,4 +1,13 @@
-
+import {PerspectiveCamera,
+    Color,
+    DirectionalLight,
+    PlaneBufferGeometry,
+    Water,
+    TextureLoader,
+    RepeatWrapping,
+    Sky,
+    CubeCamera,
+    LinearMipMapLinearFilter} from 'three';
 var Ocean = function (renderer, scene, camera) {
         
     var light;
@@ -16,27 +25,27 @@ var Ocean = function (renderer, scene, camera) {
 
         //
 
-        // camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
+        // camera = new PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
         // camera.position.set( 30, 30, 100 );
 
         //
-        var sunColor = new THREE.Color('hsl(' + (fxrand() * 360) + ', 100%, 70%)');
+        var sunColor = new Color('hsl(' + (fxrand() * 360) + ', 100%, 70%)');
 
-        light = new THREE.DirectionalLight( sunColor, 0.8 );
+        light = new DirectionalLight( sunColor, 0.8 );
         scene.add( light );
 
         // Water
 
-        var waterGeometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
+        var waterGeometry = new PlaneBufferGeometry( 10000, 10000 );
 
-        water = new THREE.Water(
+        water = new Water(
             waterGeometry,
             {
                 textureWidth: 512,
                 textureHeight: 512,
-                waterNormals: new THREE.TextureLoader().load( 'textures/waternormals.jpg', function ( texture ) {
+                waterNormals: new TextureLoader().load( 'textures/waternormals.jpg', function ( texture ) {
 
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                    texture.wrapS = texture.wrapT = RepeatWrapping;
 
                 } ),
                 alpha: 1.0,
@@ -55,7 +64,7 @@ var Ocean = function (renderer, scene, camera) {
 
         // Skybox
 
-        var sky = new THREE.Sky();
+        var sky = new Sky();
         sky.scale.setScalar( 10000 );
         scene.add( sky );
 
@@ -67,8 +76,8 @@ var Ocean = function (renderer, scene, camera) {
         uniforms.mieCoefficient.value = 0.005;
         uniforms.mieDirectionalG.value = 0.8;
 
-        var cubeCamera = new THREE.CubeCamera( 1, 20000, 256 );
-        cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+        var cubeCamera = new CubeCamera( 1, 20000, 256 );
+        cubeCamera.renderTarget.texture.minFilter = LinearMipMapLinearFilter;
 
         updateSun = function() {
 

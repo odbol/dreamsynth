@@ -1,4 +1,12 @@
-import * as THREE from 'three';
+import {PlaneBufferGeometry,
+    IcosahedronBufferGeometry,
+    Mesh,
+    Group,
+    MeshBasicMaterial,
+    ShaderMaterial,
+    DoubleSide,
+    Vector3,
+    BufferAttribute} from 'three';
 
 import { ImprovedNoise } from 'three/examples/jsm/math/ImprovedNoise.js';
 
@@ -11,7 +19,7 @@ export function Mountains() {
         worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
 
     var data = generateHeight( worldWidth, worldDepth );
-    var geometry = new THREE.PlaneBufferGeometry( GRID_LENGTH, GRID_LENGTH, worldWidth - 1, worldDepth / 4 - 1 );
+    var geometry = new PlaneBufferGeometry( GRID_LENGTH, GRID_LENGTH, worldWidth - 1, worldDepth / 4 - 1 );
     geometry.rotateX( -Math.PI / 2 );
     geometry.rotateY( -Math.PI );
 
@@ -28,15 +36,15 @@ export function Mountains() {
         vertices[ j + 1 ] = ((data[ i ] * 3 + 1) / 2 * slope);
 
     }
-// geometry = new THREE.IcosahedronBufferGeometry( 100, 4 )
+// geometry = new IcosahedronBufferGeometry( 100, 4 )
 
     // TODO: figure out why wireframe material shader doesn't work on Planes.
-    // mountains = new THREE.Mesh( geometry, createWireframeMaterial(geometry) );
+    // mountains = new Mesh( geometry, createWireframeMaterial(geometry) );
 
     // workaround:
-    mountains = new THREE.Group();
-    var blackMountains = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: 0x0 } ) );
-    var wireMountains = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { wireframe:true, color: 0x0070ff } ) );
+    mountains = new Group();
+    var blackMountains = new Mesh( geometry, new MeshBasicMaterial( { color: 0x0 } ) );
+    var wireMountains = new Mesh( geometry, new MeshBasicMaterial( { wireframe:true, color: 0x0070ff } ) );
     wireMountains.position.z += 0.1;
     mountains.add(blackMountains);
     mountains.add(wireMountains);
@@ -75,12 +83,12 @@ function createWireframeMaterial(geometry) {
         'edgeThreshold': { value: 0.99 } 
     };
 
-    var material = new THREE.ShaderMaterial( {
+    var material = new ShaderMaterial( {
 
         uniforms: uniforms,
         vertexShader: document.getElementById( 'vertexShaderWireframe' ).textContent,
         fragmentShader: document.getElementById( 'fragmentShaderWireframe' ).textContent,
-        side: THREE.DoubleSide
+        side: DoubleSide
 
     } );
 
@@ -97,9 +105,9 @@ function createWireframeMaterial(geometry) {
 function setupWireframeAttributes( geometry ) {
 
     var vectors = [
-        new THREE.Vector3( 1, 0, 0 ),
-        new THREE.Vector3( 0, 1, 0 ),
-        new THREE.Vector3( 0, 0, 1 )
+        new Vector3( 1, 0, 0 ),
+        new Vector3( 0, 1, 0 ),
+        new Vector3( 0, 0, 1 )
     ];
 
     var position = geometry.attributes.position;
@@ -111,7 +119,7 @@ function setupWireframeAttributes( geometry ) {
 
     }
 
-    geometry.addAttribute( 'center', new THREE.BufferAttribute( centers, 3 ) );
+    geometry.addAttribute( 'center', new BufferAttribute( centers, 3 ) );
 
 }
 
