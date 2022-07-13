@@ -306,17 +306,17 @@ function initBoats() {
             'pad' : {
                 url: 'samples/dreamsynth-bleeps.mp3'
             },
-            'bell' : {
-                url: 'samples/dreamsynth-stabby.mp3'
-            },
-            'chords' : {
+            'bass' : {
                 url: 'samples/dreamsynth-bass.mp3'
             },
-            'latin' : {
-                url: window.$fxhashFeatures['lively'] ? 'samples/dreamsynth-drumbreaks.mp3' : 'samples/dreamsynth-conga.mp3',
+            'chords' : {
+                url: 'samples/dreamsynth-stabby.mp3'
+            },
+            'drums' : {
+                url: window.$fxhashFeatures['lively'] ? 'samples/dreamsynth-drumbreaks.mp3' : 'samples/dreamsynth-drums-lively.mp3',
                 volume: -7
             },
-            'short' : {
+            'latin' : {
                 url: 'samples/dreamsynth-conga.mp3',
                 // volume: -10
             }
