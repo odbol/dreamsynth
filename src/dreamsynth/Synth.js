@@ -1,13 +1,17 @@
 export function Synth() {
 	var synthIdx = 0,
 		curIntervalIdx = 0,
+		// See https://www.guitarscale.org/f-aeolian.html
 		// Minor?
 		// intervals = [ 0, 2, 4, 5, 7, 9, 11, 12 ];
 		// Dorian:       2, 1, 2, 2, 2, 1, 2
+		// intervals = [ 0, 2, 3, 5, 7, 9, 10, 12 ];
+		// Aeolian:      2, 1, 2, 2, 2, 1, 2
 		intervals = [ 0, 2, 3, 5, 7, 9, 10, 12 ];
 	
 	// const ROOT_NOTE = 60; // C
-	const ROOT_NOTE = 64; // E
+	// const ROOT_NOTE = 64; // E
+	const ROOT_NOTE = 65; // F
 
 	return {
 		createNextSynth: function() {

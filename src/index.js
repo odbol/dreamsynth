@@ -304,20 +304,20 @@ function initBoats() {
 
     var loopFiles = {
             'pad' : {
-                url: 'samples/pad.mp3'
+                url: 'samples/dreamsynth-bleeps.mp3'
             },
             'bell' : {
-                url: 'samples/bass.mp3'
+                url: 'samples/dreamsynth-stabby.mp3'
             },
             'chords' : {
-                url: 'samples/choppybits.mp3'
+                url: 'samples/dreamsynth-bass.mp3'
             },
             'latin' : {
-                url: window.$fxhashFeatures['lively'] ? 'samples/drums-lively.mp3' : 'samples/drums-sparse.mp3',
+                url: window.$fxhashFeatures['lively'] ? 'samples/dreamsynth-drumbreaks.mp3' : 'samples/dreamsynth-conga.mp3',
                 volume: -7
             },
             'short' : {
-                url: 'samples/dropsticks-short.mp3',
+                url: 'samples/dreamsynth-conga.mp3',
                 // volume: -10
             }
         },
