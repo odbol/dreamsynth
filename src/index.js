@@ -304,10 +304,10 @@ function initBoats() {
 
     var loopFiles = {
             'pad' : {
-                url: 'samples/dreamsynth-bleeps.mp3'
+                url: 'samples/analog-bass.mp3'
             },
             'bass' : {
-                url: 'samples/dreamsynth-bass.mp3'
+                url: 'samples/dreamsynth-bleeps.mp3'
             },
             'chords' : {
                 url: 'samples/dreamsynth-stabby.mp3'
@@ -317,7 +317,7 @@ function initBoats() {
                 volume: -7
             },
             'latin' : {
-                url: 'samples/dreamsynth-conga.mp3',
+                url: 'samples/drumsbossa.mp3',
                 // volume: -10
             }
         },
