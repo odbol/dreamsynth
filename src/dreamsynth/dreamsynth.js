@@ -303,38 +303,39 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 			// 	object.position.y = treeStartY;
 			// }
 			
-			object.scale.x = 0.3 * w;
-			object.scale.z = 0.3 * w;
-			object.scale.y = 0.3 * w;
+			var createShrinkTween = (additionalDelay) => { 
+					return new Tween(object.scale)
+						.to({ x: 0, y: 0, z: 0 }, sizeDuration, Easing.Quadratic.InOut)
+						.delay(ascendDuration - sizeDuration - additionalDelay)
+						.onComplete(() => {
+							object.position.y = treeStartY;
+							// object.scale.x = 0.3 * w;
+							// object.scale.z = 0.3 * w;
+							// object.scale.y = 0.3 * w;
+							// growTween.start()
+						})
+				},
+				createGrowTween = () => {					
+					// object.scale.x = 0.3 * w;
+					// object.scale.z = 0.3 * w;
+					// object.scale.y = 0.3 * w;
 
-			var shrinkTween = new Tween(object.scale)
-					.to({ x: 0, y: 0, z: 0 }, sizeDuration, Easing.Quadratic.InOut)
-					.delay(ascendDuration - sizeDuration)
-					.repeatDelay(ascendDuration - sizeDuration)
-					.repeat(Infinity)
-					.onComplete(() => {
-						object.position.y = treeStartY;
-						// object.scale.x = 0.3 * w;
-						// object.scale.z = 0.3 * w;
-						// object.scale.y = 0.3 * w;
-						// growTween.start()
-					}),
-				growTween =  new Tween(object.scale)
-					.to({ x: w, y: w, z: w }, sizeDuration, Easing.Quintic.Out)
-					.repeatDelay(ascendDuration - sizeDuration)
-					.repeat(Infinity);
+					return new Tween(object.scale)
+						.to({ x: w, y: w, z: w }, sizeDuration, Easing.Quintic.Out)
+						.onComplete(() => {	
+							createShrinkTween(sizeDuration).start();
+						});
+				};
 
 			ascensionTween = new Tween(object.position)
 				.to({ y: 500 + 3000 * fxrand() }, ascendDuration, Easing.Exponential.In)
 				.repeat(Infinity)
-				// .onRepeat(() => {
-				// 	object.scale.set({ x: 1, y: 1, z: 1 });
-				// 	growTween.start()
-				// });
+				.onRepeat(() => {
+					createGrowTween().start();
+				});
 
 			ascensionTween.start();
-			shrinkTween.start();
-			growTween.start();
+			createGrowTween().start();
 		};
 
 	ascension();
