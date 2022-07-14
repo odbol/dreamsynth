@@ -294,7 +294,7 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 	};
 
 	var ascensionTween,
-		ascendDuration = 1000 * 10,
+		ascendDuration = 1000 * 60 * 3,
 		sizeDuration = 1000,
 		ascension = function () {
 			// rise up to the top of the tree
@@ -321,14 +321,14 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 					// object.scale.y = 0.3 * w;
 
 					return new Tween(object.scale)
-						.to({ x: w, y: w, z: w }, sizeDuration, Easing.Quintic.Out)
+						.to({ x: w, y: w, z: w }, sizeDuration, Easing.Back.Out)
 						.onComplete(() => {	
 							createShrinkTween(sizeDuration).start();
 						});
 				};
 
 			ascensionTween = new Tween(object.position)
-				.to({ y: 500 + 3000 * fxrand() }, ascendDuration, Easing.Exponential.In)
+				.to({ y: 850 + 3000 * fxrand() }, ascendDuration, Easing.Quintic.In)
 				.repeat(Infinity)
 				.onRepeat(() => {
 					createGrowTween().start();
