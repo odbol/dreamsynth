@@ -5,6 +5,8 @@ import {Group,
 	FrontSide,
 	Mesh} from 'three';
 
+import { Tween, Easing } from '@tweenjs/tween.js';
+
 import {BLOOM_SCENE} from "./Bloom.js";
 
 import {getProbabilityOfLetter} from "./LetterDistributions.js";
@@ -248,9 +250,10 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 
 	// YES, the z and y are swapped: to make it horizontal to the ocean.
 	var scaleY = TWEET_TREE_Y + (50 * this.depth) + (offset * TWEET_TREE_Y);
+	var treeStartY = -TWEET_TREE_Y * 4 + scaleY / 2;
 	object.position.x = x;
 	object.position.z = y;
-	object.position.y = -TWEET_TREE_Y * 4 + scaleY / 2;
+	object.position.y = treeStartY;
 
 	object.scale.x = w;
 	object.scale.z = w;
@@ -272,8 +275,8 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 				tween.stop();
 				object.position.x = x;
 			}
-			tween = new TWEEN.Tween(object.position)
-				.to({ x: object.position.x - 6 }, 130, TWEEN.Easing.Elastic.InOut)
+			tween = new Tween(object.position)
+				.to({ x: object.position.x - 6 }, 130, Easing.Elastic.InOut)
 				.repeat(2)
 				.yoyo()
 				.start();
@@ -289,6 +292,52 @@ TweetTree.prototype.makeBox = function(x, y, w, h, offset, c) {
 		debugPrint("noteoff ");
 		self.synth.triggerRelease();
 	};
+
+	var ascensionTween,
+		ascendDuration = 1000 * 10,
+		sizeDuration = 1000,
+		ascension = function () {
+			// rise up to the top of the tree
+			// if (ascensionTween) {
+			// 	ascensionTween.stop();
+			// 	object.position.y = treeStartY;
+			// }
+			
+			object.scale.x = 0.3 * w;
+			object.scale.z = 0.3 * w;
+			object.scale.y = 0.3 * w;
+
+			var shrinkTween = new Tween(object.scale)
+					.to({ x: 0, y: 0, z: 0 }, sizeDuration, Easing.Quadratic.InOut)
+					.delay(ascendDuration - sizeDuration)
+					.repeatDelay(ascendDuration - sizeDuration)
+					.repeat(Infinity)
+					.onComplete(() => {
+						object.position.y = treeStartY;
+						// object.scale.x = 0.3 * w;
+						// object.scale.z = 0.3 * w;
+						// object.scale.y = 0.3 * w;
+						// growTween.start()
+					}),
+				growTween =  new Tween(object.scale)
+					.to({ x: w, y: w, z: w }, sizeDuration, Easing.Quintic.Out)
+					.repeatDelay(ascendDuration - sizeDuration)
+					.repeat(Infinity);
+
+			ascensionTween = new Tween(object.position)
+				.to({ y: 500 + 3000 * fxrand() }, ascendDuration, Easing.Exponential.In)
+				.repeat(Infinity)
+				// .onRepeat(() => {
+				// 	object.scale.set({ x: 1, y: 1, z: 1 });
+				// 	growTween.start()
+				// });
+
+			ascensionTween.start();
+			shrinkTween.start();
+			growTween.start();
+		};
+
+	ascension();
 
 	debugPrint("makeBox ", x, y, w, h, offset, c, octave);
 

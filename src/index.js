@@ -12,6 +12,8 @@ Vector3} from 'three';
 
 import { WavyOrbitControls } from './dreamsynth/WavyOrbitControls.js'
 
+import { update as updateTween } from '@tweenjs/tween.js';
+
 import {BLOOM_SCENE, Bloom} from './dreamsynth/Bloom.js';
 
 import {Hill_rebuild} from "./dreamsynth/dreamsynth.js";
@@ -230,7 +232,7 @@ function animate() {
 
     ocean && ocean.update();
 
-    TWEEN.update();
+    updateTween();
 
     render();
     stats && stats.update();
