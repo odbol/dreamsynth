@@ -317,20 +317,20 @@ function initBoats() {
 
     var loopFiles = {
             'bass' : {
-                url: window.$fxhashFeatures['lively'] ? 'samples/dreamsynth-bass.mp3' : 'samples/analog-bass.mp3'
+                url: window.$fxhashFeatures['lively'] ? 'samples/dreamsynth-bass.mp3' : 'samples/asc-bass.mp3'
             },
-            'bleeps' : {
-                url: 'samples/dreamsynth-bleeps.mp3'
+            'pad' : {
+                url: 'samples/asc-pad.mp3'
             },
             'chords' : {
                 url: 'samples/dreamsynth-stabby.mp3'
             },
             'drums' : {
-                url: window.$fxhashFeatures['lively'] ? 'samples/dreamsynth-drumbreaks.mp3' : 'samples/dreamsynth-drums-lively.mp3',
+                url: window.$fxhashFeatures['lively'] ? 'samples/dreamsynth-drumbreaks.mp3' : 'samples/asc-drums.mp3',
                 volume: -7
             },
             'latin' : {
-                url: 'samples/drumsbossa.mp3',
+                url: 'samples/asc-conga.mp3',
                 // volume: -10
             }
         },
@@ -343,7 +343,7 @@ function initBoats() {
                 // must mute AFTER starting because that's when volumes are adjusted.
                 // TODO(fxhash): init loops as feature!
                 for (var name in loopFiles) {
-                    loops.mute(name, name !== 'bass' && !window.$fxhashFeatures['loop_' + name]);
+                    loops.mute(name, name !== 'pad' && !window.$fxhashFeatures['loop_' + name]);
                 }
                 decrementLoadingItems();
             },
